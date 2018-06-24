@@ -7,10 +7,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TeamRocketApplicationTests {
+public class TeamRocket2ApplicationTests {
 
 	@Test
 	public void contextLoads() {
+		assert(true);
 	}
 
 }

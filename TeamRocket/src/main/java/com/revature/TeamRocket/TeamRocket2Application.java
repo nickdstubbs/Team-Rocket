@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TeamRocketApplication {
+public class TeamRocket2Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TeamRocketApplication.class, args);
+		SpringApplication.run(TeamRocket2Application.class, args);
 	}
 }
