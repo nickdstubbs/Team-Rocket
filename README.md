@@ -3,7 +3,7 @@ Write notes at the top so that the most recent note is at the top of the list an
 
 ----------------------------------------------------------------------------
 
-##Christian's notes [23 June 2018 pt.2]
+## Christian's notes [23 June 2018 pt.2]
 
 Okay, so I'm not sure if I'm using Spring or the Rest API correctly, so right now the best way to view the app is to build the Angular app, and then build the Spring app, and run the Spring app on port 8080
 Here's what to do:
@@ -16,7 +16,7 @@ The app should be running on localhost:8080 with the Angual homepage loaded, you
 
 I don't know if I've got it working the other way since I'm not sure how to use Spring and the Rest API yet.
 
-##Christian's notes [23 June 2018]
+## Christian's notes [23 June 2018]
 
 **I'm not sure if I used gitignore correctly, but node_modules should not be tracked. If it shows up in STS, make sure you remove it. [Use this link to see how to do that and see how this skeleton works.](http://javasampleapproach.com/java-integration/integrate-angular-4-springboot-web-app-springtoolsuite)**
 
