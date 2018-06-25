@@ -6,7 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  title = 'Team Rocket';
+  title = "Team Rocket";
+  phrase = "Prepare for trouble!";
+
+  toggle( ) {
+    if(this.phrase === "Prepare for trouble!") {
+      this.phrase = "And make it double!"
+    } else {
+      this.phrase = "Prepare for trouble!";
+    }
+  }
   
   constructor() { }
 
