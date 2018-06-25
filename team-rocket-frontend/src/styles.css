@@ -2,6 +2,7 @@
 :root {
     --main-color : #292929;
     --secondary-color : #da3a3a;/*#ff4141*/
+    --card-color: #646464;
     --text-color : #e6e6e6;
 }
 
@@ -26,4 +27,14 @@ button.myButton {
 button.myButton:hover {
     background-color: var(--main-color);
     color: var(--secondary-color);
+}
+
+.myCard {
+    background-color: var(--card-color);
+}
+.cardPic {
+    width:33%;
+    float: left; 
+    position: relative; 
+  
 }
