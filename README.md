@@ -1,6 +1,7 @@
 # Team-Rocket
 Write notes at the top so that the most recent note is at the top of the list and we can still view past notes.
 
+**You'll need to run npm install in the angualr project to get the node_modules after pulling from a branch**
 ----------------------------------------------------------------------------
 
 ## Christian's notes [23 June 2018 pt.2]
