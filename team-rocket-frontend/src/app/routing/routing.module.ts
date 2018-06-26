@@ -4,6 +4,8 @@ import { HomeComponent } from '../components/home/home.component';
 import { ProfileComponent } from '../components/profile/profile.component';
 import { TeamsComponent } from '../components/teams/teams.component';
 import { NewTeamComponent } from '../components/new-team/new-team.component';
+import { SignUpComponent } from '../components/sign-up/sign-up.component';
+import { LogInComponent } from '../components/log-in/log-in.component';
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +23,12 @@ const routes: Routes = [
   }, {
     path: "new-team",
     component: NewTeamComponent
+  }, {
+    path: "sign-up",
+    component: SignUpComponent
+  }, {
+    path: "log-in",
+    component: LogInComponent
   }
 ];
 @NgModule({
