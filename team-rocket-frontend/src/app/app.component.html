@@ -1,6 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <nav class="navbar navbar-expand-lg navbar-light myNav">
+  <nav class="navbar navbar-expand-lg navbar-light myNav fixed-top">
     <a class="navbar-brand" routerLink="/">{{title}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
       aria-expanded="false" aria-label="Toggle navigation">
@@ -9,11 +9,15 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" routerLink="/profile">Profile</a>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/profile" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
         </li>
-        <li>
+        <li class="nav-item" (mouseover)="show()" (mouseleave)="hide()">
           <a class="nav-link" routerLink="/teams">Teams</a>
+          <div *ngIf="showDropdown" class="myDropdownMenu" >
+            <a class="nav-link" routerLink="/teams">Your Teams</a>
+            <a class="nav-link" routerLink="/new-team">Create Team</a>
+          </div>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
@@ -22,5 +26,9 @@
     </div>
   </nav>
   <br>
+  <br>
+  <br>
   <router-outlet></router-outlet>
+  <br>
+  <br>
 </div>

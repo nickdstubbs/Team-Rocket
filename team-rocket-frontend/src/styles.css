@@ -29,12 +29,22 @@ button.myButton:hover {
     color: var(--secondary-color);
 }
 
+.cardContainer {
+    padding: 10px;
+    display: inline-block;
+    width:275px;
+}
+
 .myCard {
     background-color: var(--card-color);
+    
 }
 .cardPic {
     width:33%;
-    float: left; 
-    position: relative; 
-  
+    float: left;
+}
+.myDropdownMenu {
+    background-color: var(--secondary-color);
+    position: absolute;
+    display: block;
 }

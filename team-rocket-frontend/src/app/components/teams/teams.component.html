@@ -1,19 +1,45 @@
 <div class="container">
-  <div class="card" style="width: 18rem;">
-    <div>
-      <img class="cardPic" src="https://cdn.bulbagarden.net/upload/thumb/4/46/019Rattata.png/250px-019Rattata.png" alt="Card image cap">
-      <img class="cardPic" src="https://cdn.bulbagarden.net/upload/thumb/4/46/019Rattata.png/250px-019Rattata.png" alt="Card image cap">
-      <img class="cardPic" src="https://cdn.bulbagarden.net/upload/thumb/4/46/019Rattata.png/250px-019Rattata.png" alt="Card image cap">
-    </div>
-    <div>
-        <img class="cardPic" src="https://cdn.bulbagarden.net/upload/thumb/4/46/019Rattata.png/250px-019Rattata.png" alt="Card image cap">
-        <img class="cardPic" src="https://cdn.bulbagarden.net/upload/thumb/4/46/019Rattata.png/250px-019Rattata.png" alt="Card image cap">
-        <img class="cardPic" src="https://cdn.bulbagarden.net/upload/thumb/4/46/019Rattata.png/250px-019Rattata.png" alt="Card image cap">
+  <h1>Your Teams</h1>
+  <div>
+    <div class="cardContainer" *ngFor="let team of teams">
+      <div class="card">
+        <div>
+          <img class="cardPic" src={{team.poketeam.p1.image}} alt="Card image cap">
+          <img class="cardPic" src={{team.poketeam.p2.image}} alt="Card image cap">
+          <img class="cardPic" src={{team.poketeam.p3.image}} alt="Card image cap">
+        </div>
+        <div>
+          <img class="cardPic" src={{team.poketeam.p4.image}} alt="Card image cap">
+          <img class="cardPic" src={{team.poketeam.p5.image}} alt="Card image cap">
+          <img class="cardPic" src={{team.poketeam.p6.image}} alt="Card image cap">
+        </div>
+        <div class="card-body myCard">
+          <h5 class="card-title">{{team.nickname}}</h5>
+          <p class="card-text">{{team.description}}</p>
+          <button class="btn myButton">View</button>
+        </div>
       </div>
-    <div class="card-body myCard">
-      <h5 class="card-title">Best Team</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <button class="btn myButton">Go somewhere</button>
+    </div>
+
+    <div class="cardContainer">
+      <div class="card">
+        <div>
+          <img class="cardPic" src="http://i.imgur.com/EgIXnFE.jpg" alt="Card image cap">
+          <img class="cardPic" src="http://i.imgur.com/EgIXnFE.jpg" alt="Card image cap">
+          <img class="cardPic" src="http://i.imgur.com/EgIXnFE.jpg" alt="Card image cap">
+        </div>
+        <div>
+          <img class="cardPic" src="http://i.imgur.com/EgIXnFE.jpg" alt="Card image cap">
+          <img class="cardPic" src="http://i.imgur.com/EgIXnFE.jpg" alt="Card image cap">
+          <img class="cardPic" src="http://i.imgur.com/EgIXnFE.jpg" alt="Card image cap">
+        </div>
+        <div class="card-body myCard">
+          <h5 class="card-title">New Team</h5>
+          <p class="card-text">Who will help you become the very best like no one ever was?</p>
+          <button class="btn myButton" routerLink="/new-team">Create</button>
+        </div>
+      </div>
     </div>
   </div>
+
 </div>
