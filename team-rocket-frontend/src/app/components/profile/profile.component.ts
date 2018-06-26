@@ -8,7 +8,7 @@ import { User } from '../../user';
 })
 export class ProfileComponent implements OnInit {
   user: User = {
-    name: "James"
+    name: "Youngster Joey"
   }
   constructor() { }
 

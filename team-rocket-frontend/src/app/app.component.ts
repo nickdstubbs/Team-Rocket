@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION } from 'constants';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  
+  title = 'Team Rocket';
+  loggedIn = false;
   showDropdown = false;
   show() {
     this.showDropdown = true;
@@ -14,5 +18,6 @@ export class AppComponent {
     this.showDropdown = false;
   }
 
-  title = 'Team Rocket';
+  
+
 }

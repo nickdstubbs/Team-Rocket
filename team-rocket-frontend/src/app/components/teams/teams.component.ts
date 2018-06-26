@@ -21,7 +21,7 @@ export class TeamsComponent implements OnInit {
 
     let t: Team = {
       nickname: "The Best",
-      description: "The best team in all of everywhere",
+      description: "All of my top percentage Rattata",
       poketeam: {
         p1: p,
         p2: p,
