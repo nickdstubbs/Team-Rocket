@@ -1,0 +1,19 @@
+.pokemonSelection {
+    float: left;
+    width:66%;
+}
+
+.pokemonCard {
+    padding: 10px;
+    display: inline-block;
+    width:200px;
+}
+
+.pokemonPic {
+    width: 100%;
+}
+
+.teamMeta {
+    float: right;
+    width: 33%
+}
