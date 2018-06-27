@@ -65,6 +65,19 @@
 				              </resources>
 				          </configuration> 
 				      </execution>
+				      <execution>
+				          <id>copy-resources</id>
+				          <phase>validate</phase>
+				          <goals><goal>copy-resources</goal></goals>
+				          <configuration>
+				              <outputDirectory>${basedir}/src/main/webapp/</outputDirectory >
+				              <resources> 
+				                  <resource>
+				                      <directory>${basedir}/../team-rocket-frontend/dist/team-rocket-frontend</directory >
+				                  </resource>
+				              </resources>
+				          </configuration> 
+				      </execution>
 				</executions>
 			</plugin>
 		</plugins>
