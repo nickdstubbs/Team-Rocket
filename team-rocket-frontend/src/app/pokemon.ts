@@ -1,4 +1,5 @@
 export interface Pokemon {
     name: string,
-    image: string
+    image: string,
+    level: number
 }

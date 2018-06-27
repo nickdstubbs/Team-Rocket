@@ -16,7 +16,8 @@ export class TeamsComponent implements OnInit {
   ngOnInit() {
     let p: Pokemon = {
       name: "Rattata",
-      image: "https://cdn.bulbagarden.net/upload/thumb/4/46/019Rattata.png/250px-019Rattata.png"
+      image: "https://cdn.bulbagarden.net/upload/thumb/4/46/019Rattata.png/250px-019Rattata.png",
+      level: 100
     }
 
     let t: Team = {

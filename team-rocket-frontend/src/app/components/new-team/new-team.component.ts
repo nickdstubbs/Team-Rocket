@@ -10,7 +10,8 @@ export class NewTeamComponent implements OnInit {
   myTeam: Pokemon[] = [];
   default: Pokemon = {
     name: "none",
-    image: "http://i.imgur.com/EgIXnFE.jpg"
+    image: "http://i.imgur.com/EgIXnFE.jpg",
+    level: 1
   }
   
   constructor() { }
