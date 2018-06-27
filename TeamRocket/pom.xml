@@ -52,7 +52,7 @@
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
-				      <execution>
+				      <!-- <execution>
 				          <id>copy-resources</id>
 				          <phase>validate</phase>
 				          <goals><goal>copy-resources</goal></goals>
@@ -64,7 +64,7 @@
 				                  </resource>
 				              </resources>
 				          </configuration> 
-				      </execution>
+				      </execution> -->
 				      <execution>
 				          <id>copy-resources</id>
 				          <phase>validate</phase>
