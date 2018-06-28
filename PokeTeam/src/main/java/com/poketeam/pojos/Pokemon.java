@@ -22,16 +22,16 @@ public class Pokemon extends PokemonImpl{
 	@Column(name="p_level")
 	private int level;
 	
-	@Column
+	@Column(name="move_1")
 	private String move1;
 	
-	@Column
+	@Column(name="move_2")
 	private String move2;
 	
-	@Column
+	@Column(name="move_3")
 	private String move3;
 	
-	@Column
+	@Column(name="move_4")
 	private String move4;
 	
 	@Column
@@ -121,7 +121,7 @@ public class Pokemon extends PokemonImpl{
 		return position;
 	}
 
-	public void setPosition(int position) {
+	private void setPosition(int position) {
 		this.position = position;
 		merge();
 	}
