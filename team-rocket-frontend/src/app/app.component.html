@@ -1,10 +1,41 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="https://wallpapercave.com/wp/042gBol.jpg">
-  <h2>Prepare for trouble!</h2>
-</div> 
-<a routerLink="/pokedex">Pokedex</a>
-<router-outlet></router-outlet>
+  <nav class="navbar navbar-expand-lg navbar-light myNav fixed-top">
+    <a class="navbar-brand" routerLink="/">{{title}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/profile">Profile</a>
+        </li>
+        <li class="nav-item" (mouseover)="show()" (mouseleave)="hide()">
+          <a class="nav-link" routerLink="/teams">Teams</a>
+          <div *ngIf="showDropdown" class="myDropdownMenu" >
+            <a class="nav-link" routerLink="/teams">Your Teams</a>
+            <a class="nav-link" routerLink="/new-team">Create Team</a>
+          </div>
+        </li>
+        <li>
+          <a class="nav-link" routerLink="">Pokedex</a>
+        </li>
+        <li>
+          <a class="nav-link" routerLink="/explore">Explore</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <button *ngIf="!loggedIn" class="btn myButton my-2 my-sm-0" routerLink="/log-in">Log In</button>
+        <button *ngIf="loggedIn" class="btn myButton my-2 my-sm-0" routerLink="/home">Log Out</button>
+      </form>
+    </div>
+  </nav>
+  <br>
+  <br>
+  <br>
+  <router-outlet></router-outlet>
+  <br>
+  <br>
+</div>

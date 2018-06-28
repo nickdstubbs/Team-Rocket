@@ -1,0 +1,9 @@
+.search{
+    width: 300px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.sendSearch {
+    display: inline-block;
+}

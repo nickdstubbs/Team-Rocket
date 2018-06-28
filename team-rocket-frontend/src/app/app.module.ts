@@ -1,29 +1,30 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { RoutingModule } from  './routing/routing.module';
 
 import { AppComponent } from './app.component';
-import { PokedexComponent } from './components/pokedex/pokedex.component';
-import { PokemonComponent } from './components/pokemon/pokemon.component';
-import { PokemonService } from './components/pokemon/pokemon.service';
-import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { PokemonCardComponent } from './components/pokcard/pokcard.component';
-import { AppRoutingModule } from './app-routing.module';
-
+import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { TeamsComponent } from './components/teams/teams.component';
+import { NewTeamComponent } from './components/new-team/new-team.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { LogInComponent } from './components/log-in/log-in.component';
+import { ExploreComponent } from './components/explore/explore.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PokedexComponent,
-    PokemonComponent,
-    PokemonCardComponent
+    HomeComponent,
+    ProfileComponent,
+    TeamsComponent,
+    NewTeamComponent,
+    SignUpComponent,
+    LogInComponent,
+    ExploreComponent
   ],
   imports: [
     BrowserModule,
-    CommonModule,
-    HttpModule,
-    AppRoutingModule
+    RoutingModule
   ],
   providers: [PokemonService],
   bootstrap: [AppComponent]
