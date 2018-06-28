@@ -26,7 +26,7 @@ import { ExploreComponent } from './components/explore/explore.component';
     BrowserModule,
     RoutingModule
   ],
-  providers: [],
+  providers: [PokemonService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
