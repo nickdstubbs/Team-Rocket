@@ -8,18 +8,26 @@ import com.poketeam.utils.HibernateUtil;
 public class Driver {
 
 	public static void main(String[] args) {
-//		Account account = new Account("dickdstubbs", "dickdstubbs@gmail.com", "pass", "Nick", "Stubbs");
-		Account account = new Account("nickdstubbs", "pass");
-		Team t2 = account.getTeamByName("Team 2");
+//		Account account = new Account("brickdstubbs", "brickdstubbs@gmail.com", "pass", "Brick", "Stubbs");
+		Account account = new Account("brickdstubbs@gmail.com", "pass");
 		
-//		t2.addPoke(1, "bulbasaur", 7, "tackle", "growl", null, null, t2.getTeam_id());
-//		t2.addPoke(7, "charmander", 7, "tackle", "growl", null, null, t2.getTeam_id());
+		Team team1=account.getTeamByName("Team 1");
 		
-		System.out.println(t2);
+		Pokemon poke = team1.getPokemonByPosition(2);
 		
-		t2.switchPokemon(1, 2);
+		poke.setLevel(8);
+		poke.setmove3("vine whip");
+		poke.setName("Franklin");
 		
-		System.out.println(t2);
+		System.out.println();
+		System.out.println(team1);
+		System.out.println();
+		
+		team1.switchPokemon(1, 2);
+		
+		System.out.println();
+		System.out.println(team1);
+		System.out.println();
 		
 		HibernateUtil.closeSession();
 	}

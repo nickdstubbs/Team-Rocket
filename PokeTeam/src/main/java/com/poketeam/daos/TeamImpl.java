@@ -24,5 +24,17 @@ public abstract class TeamImpl extends Transactions implements TeamDao{
 		session.close();
 		return pokemon;
 	}
+	
+	//Get team by id
+	public Team searchTeam(int id) {
+		Session session = HibernateUtil.getSession();
+		Query query = session.createQuery("from Team where teamId=:id");
+		query.setInteger("id", id);
+		List<Team> teams = query.list();
+		if(teams.isEmpty())
+			return null;
+		else
+			return teams.get(0);
+	}
 
 }

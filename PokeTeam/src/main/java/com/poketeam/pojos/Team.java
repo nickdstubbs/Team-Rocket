@@ -1,5 +1,7 @@
 package com.poketeam.pojos;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +34,20 @@ public class Team extends TeamImpl{
 	@OneToMany(mappedBy="")
 	private List<Pokemon> pokemon;
 
+	//Constructor
+	
 	public Team() {
 		super();
 	}
-
-	//Constructor
+	
+	public Team(int id) {
+		Team team = searchTeam(id);
+		this.userId=team.getuserId();
+		this.teamName=team.getTeamName();
+		this.visibility=team.getVisibility();
+		this.teamId=team.getTeamId();
+		this.pokemon=loadPokemon(teamId);
+	}
 	
 	public Team(int userId, String teamName, String visibility) {
 		super();
@@ -49,7 +60,7 @@ public class Team extends TeamImpl{
 	
 	public void addPokemon(int pokeId, String name, int level, String move_1, String move_2, String move_3, String move_4, int teamId) {
 		if(pokemon==null || pokemon.size()<6) {
-			int position=0;
+			int position=1;
 			if(pokemon!=null) {
 				position=pokemon.size()+1;
 			}
@@ -78,13 +89,32 @@ public class Team extends TeamImpl{
 	public void switchPokemon(int pos1, int pos2) {
 		Pokemon poke1=getPokemonByPosition(pos1);
 		Pokemon poke2=getPokemonByPosition(pos2);
-		
-		poke1.setPosition(pos2);
-		poke2.setPosition(pos1);
-		
-		poke1.evict();
-		poke2.merge();
-		poke1.update();
+		try {
+			Method setPosition = poke1.getClass().getDeclaredMethod("setPosition", int.class);	
+			setPosition.setAccessible(true);
+			setPosition.invoke(poke1, pos2);
+			setPosition.invoke(poke2, pos1);
+			
+			poke1.evict();
+			poke2.merge();
+			poke1.update();
+			
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public Pokemon getPokemonById(int id) {
