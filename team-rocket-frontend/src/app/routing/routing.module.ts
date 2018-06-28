@@ -6,6 +6,7 @@ import { TeamsComponent } from '../components/teams/teams.component';
 import { NewTeamComponent } from '../components/new-team/new-team.component';
 import { SignUpComponent } from '../components/sign-up/sign-up.component';
 import { LogInComponent } from '../components/log-in/log-in.component';
+import { ExploreComponent } from '../components/explore/explore.component';
 const routes: Routes = [
   {
     path: '',
@@ -29,6 +30,9 @@ const routes: Routes = [
   }, {
     path: "log-in",
     component: LogInComponent
+  }, {
+    path: "explore",
+    component: ExploreComponent
   }
 ];
 @NgModule({

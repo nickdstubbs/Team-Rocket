@@ -9,6 +9,7 @@ import { TeamsComponent } from './components/teams/teams.component';
 import { NewTeamComponent } from './components/new-team/new-team.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { LogInComponent } from './components/log-in/log-in.component';
+import { ExploreComponent } from './components/explore/explore.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { LogInComponent } from './components/log-in/log-in.component';
     TeamsComponent,
     NewTeamComponent,
     SignUpComponent,
-    LogInComponent
+    LogInComponent,
+    ExploreComponent
   ],
   imports: [
     BrowserModule,
