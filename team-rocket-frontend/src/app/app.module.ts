@@ -16,6 +16,8 @@ import { PokedexComponent } from './components/pokedex/pokedex.component';
 import { PokemonComponent } from './components/pokemon/pokemon.component';
 import { PokemonCardComponent } from './components/pokcard/pokcard.component';
 import { HttpModule } from '@angular/http';
+import { PokeTeamService } from './components/teams/pokeTeam.service';
+import { TeamComponent } from './team/team.component';
 
 @NgModule({
   declarations: [
@@ -29,14 +31,15 @@ import { HttpModule } from '@angular/http';
     ExploreComponent,
     PokedexComponent,
     PokemonComponent,
-    PokemonCardComponent
+    PokemonCardComponent,
+    TeamComponent
   ],
   imports: [
     BrowserModule,
     RoutingModule,
     HttpModule
   ],
-  providers: [PokemonService],
+  providers: [PokemonService, PokeTeamService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
