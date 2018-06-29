@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogInComponent implements OnInit {
   
-
+  login() {
+    sessionStorage.setItem("loggedIn", "true");
+    location.reload();
+  }
   constructor() { }
 
   ngOnInit() {

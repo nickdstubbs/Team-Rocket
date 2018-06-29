@@ -6,6 +6,7 @@ import { PokemonService } from '../pokemon/pokemon.service';
 import { Http } from '@angular/http';
 import { PokeTeamService } from './pokeTeam.service';
 import { teamPokemon } from './teamPokemon.interface';
+import { USER } from '../../mock-user'
 
 @Component({
   selector: 'app-teams',
@@ -15,33 +16,8 @@ import { teamPokemon } from './teamPokemon.interface';
 export class TeamsComponent implements OnInit {
   teams: Team[] = [];
 
-  dbTeams: DbTeam[] = [
-    {
-      nickname: "one",
-      description: "",
-      poketeam: {
-        p1: "301",
-        p2: "302",
-        p3: "303",
-        p4: "304",
-        p5: "305",
-        p6: "306"
-      }
-    }
-    , {
-      nickname: "two",
-      description: "",
-      poketeam: {
-        p1: "307",
-        p2: "308",
-        p3: "309",
-        p4: "310",
-        p5: "311",
-        p6: "312"
-      }
-    }
-  ]
-  constructor(private http: Http, private pokemonService: PokeTeamService) {
+  dbTeams: DbTeam[] = USER.teams;
+  constructor(private pokemonService: PokeTeamService) {
   }
 
   inst() {
@@ -106,7 +82,6 @@ export class TeamsComponent implements OnInit {
       this.pokemonService.getPokemon(this.dbTeams[i].poketeam.p4).subscribe(temp4 => this.teams[i].poketeam.p4 = temp4)
       this.pokemonService.getPokemon(this.dbTeams[i].poketeam.p5).subscribe(temp5 => this.teams[i].poketeam.p5 = temp5)
       this.pokemonService.getPokemon(this.dbTeams[i].poketeam.p6).subscribe(temp6 => this.teams[i].poketeam.p6 = temp6)
-
     }
   }
 
