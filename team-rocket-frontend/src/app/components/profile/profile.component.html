@@ -1,4 +1,35 @@
 <div class="container">
   <h1>Hello, {{user.name}}</h1>
 
+  <div>
+    <div class="cardContainer" *ngFor="let team of preview">
+      <div class="card">
+        <div>
+          <img class="cardPic" [src]="team.poketeam.p1.sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="team.poketeam.p2.sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="team.poketeam.p3.sprites.front_default" alt="Card image cap">
+        </div>
+        <div>
+          <img class="cardPic" [src]="team.poketeam.p4.sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="team.poketeam.p5.sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="team.poketeam.p6.sprites.front_default" alt="Card image cap">
+        </div>
+        <div class="card-body myCard">
+          <h5 class="card-title">{{team.nickname}}</h5>
+          <p class="card-text">{{team.description}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cardContainer">
+      <div class="card">
+        
+        <div class="card-body myCard">
+          <h5 class="card-title">More</h5>
+          <p class="card-text">View your other line-ups.</p>
+          <button class="btn myButton" routerLink="/teams">View</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
