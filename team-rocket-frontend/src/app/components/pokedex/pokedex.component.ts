@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { Pokemon } from '../pokemon/pokemon.interface';
 import { Results } from '../results/results.interface';
 import { PokemonService } from '../pokemon/pokemon.service';
+import * as Pokedex from '../../../../node_modules/pokedex-promise-v2';
 @Component({
   selector: 'pok-pokedex',
   templateUrl: './pokedex.component.html'
@@ -22,6 +23,14 @@ export class PokedexComponent implements OnInit {
   private types: string[];
   private tempType: string;
   private tempName: string;
+  private dex: Pokedex;
+  private options = {
+    'protocol': 'https'
+  };
+  private interval = {
+    limit: 802,
+    offset: 0
+  };
 
   constructor(private http: Http, private pokemonService: PokemonService) {
     this.pokemons = [];
@@ -37,32 +46,34 @@ export class PokedexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get('https://pokeapi.co/api/v2/pokemon/?limit=802').subscribe(result => {
-      this.results = result.json() as Results;
+    this.dex = new Pokedex(this.options);
+    this.dex.getPokemonsList(this.interval, (response) => {
+      this.results = response as Results;
       this.getResults();
-    }, error => console.error(error));
+      console.log(this.results);
+    })
   }
   //use promises to get pokemon details?
   public getResults() {
     this.pokemons = [];
     let index = 0;
+    this.dex = new Pokedex(this.options);
     console.log("Getting results");
     console.log(this.results);
     for (let i = this.offset; i < ((this.regionLimit < (this.offset + 20)) ? this.regionLimit : (this.offset + 20)); i++) {
-      //for (let result of this.results.results) 
-      //this.pokemons[index] = this.pokemonService.getPokemon(i+"");
-      this.http.get(this.results.results[i].url).subscribe(result => {
-        this.pokemons[index] = result.json() as Pokemon;
-        //console.log(this.pokemons[index].types[0]);
+      this.dex.getPokemonByName(i, (response) => {
+        console.log(response);
+        this.pokemons[index] = response as Pokemon;
         index++;
         this.pokemons.sort((p1, p2) => p1.id - p2.id);
-      }, error => console.error(error));
+      });
     }
 
   }
   public getNext() {
     this.base = false;
     this.offset += 20;
+    this.interval.offset += 20;
     if (this.tempName.length == 0) {
       this.getResults();
     } else {
@@ -72,6 +83,7 @@ export class PokedexComponent implements OnInit {
   }
   public getPrev() {
     this.offset -= 20;
+    this.interval.offset -= 20;
     if (this.offset <= this.regionBase) {
       this.offset = this.regionBase;
       this.base = true;
@@ -101,30 +113,56 @@ export class PokedexComponent implements OnInit {
   public filterType(event: any) {
     console.log("Type Filter");
     this.tempType = event.target.value;
-    this.http.get('https://pokeapi.co/api/v2/pokemon/?limit=802').subscribe(result => {
-      this.results = result.json() as Results;
-      let index = 0;
-      console.log(this.tempType);
-      for (let j = 0; j < this.regions.length; j++) {
-        if (this.tempRegion == this.regions[j][0]) {
-          this.offset = this.regions[j][1];
-          this.regionBase = this.regions[j][1];
-          this.regionLimit = this.regions[j][2];
+    if (this.tempType == "All") {
+      this.getResults();
+    } else {
+      this.dex = new Pokedex(this.options);
+      this.dex.getTypeByName(this.tempType, (response) => {
+        let index = 0;
+        let breaker = false;
+        for (let i = 0; i < response.pokemon.length; i++) {
+          this.dex.getPokemonByName(response.pokemon[i].pokemon.name, (response) => {
+            if (response.id < this.regionLimit) {
+              this.pokemons[index] = response as Pokemon;
+              if (this.tempType != "All") {
+                let type: any;
+                type = this.pokemons[index].types;
+                if (type[0].type.name == this.tempType.toLowerCase() || type[1] == this.tempType.toLowerCase()) index++;
+              }
+              this.pokemons.sort((p1, p2) => p1.id - p2.id);
+            }
+            else breaker = true;
+          })
+          if (breaker) break;
+          if (index > 20) break;
         }
-      }
-      for (let i = this.regionBase; i < this.regionLimit; i++) {
-        this.http.get(this.results.results[i].url).subscribe(result => {
-          this.pokemons[index] = result.json() as Pokemon;
-          if (this.tempType != "All") {
-            let type: any;
-            type = this.pokemons[index].types;
-            if (type[0].type.name == this.tempType.toLowerCase() || type[1] == this.tempType.toLowerCase()) index++;
-          }
-          this.pokemons.sort((p1, p2) => p1.id - p2.id);
-        }, error => console.error(error));
-        if (index > 20) break;
-      }
-    }, error => console.error(error));
+      });
+    }
+
+    // this.http.get('https://pokeapi.co/api/v2/pokemon/?limit=802').subscribe(result => {
+    //   this.results = result.json() as Results;
+    //   let index = 0;
+    //   console.log(this.tempType);
+    //   for (let j = 0; j < this.regions.length; j++) {
+    //     if (this.tempRegion == this.regions[j][0]) {
+    //       this.offset = this.regions[j][1];
+    //       this.regionBase = this.regions[j][1];
+    //       this.regionLimit = this.regions[j][2];
+    //     }
+    //   }
+    //   for (let i = this.regionBase; i < this.regionLimit; i++) {
+    //     this.http.get(this.results.results[i].url).subscribe(result => {
+    //       this.pokemons[index] = result.json() as Pokemon;
+    //       if (this.tempType != "All") {
+    //         let type: any;
+    //         type = this.pokemons[index].types;
+    //         if (type[0].type.name == this.tempType.toLowerCase() || type[1] == this.tempType.toLowerCase()) index++;
+    //       }
+    //       this.pokemons.sort((p1, p2) => p1.id - p2.id);
+    //     }, error => console.error(error));
+    //     if (index > 20) break;
+    //   }
+    // }, error => console.error(error));
   }
 
   public filterName(event: any) {
