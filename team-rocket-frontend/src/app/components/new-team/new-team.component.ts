@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Pokemon } from '../../pokemon';
+import { teamPokemon } from '../teams/teamPokemon.interface';
 
 @Component({
   selector: 'app-new-team',
@@ -7,11 +8,16 @@ import { Pokemon } from '../../pokemon';
   styleUrls: ['./new-team.component.css']
 })
 export class NewTeamComponent implements OnInit {
-  myTeam: Pokemon[] = [];
-  default: Pokemon = {
+  myTeam: teamPokemon[] = [];
+  default: teamPokemon = {
+    id:0,
     name: "none",
-    image: "http://i.imgur.com/EgIXnFE.jpg",
-    level: 1
+    level: 1,
+    sprites: {
+      front_default: "http://i.imgur.com/EgIXnFE.jpg"
+    },
+    types: []
+   
   }
   
   constructor() { }

@@ -2,11 +2,11 @@ export interface DbTeam {
     nickname: string,
     description: string,
     poketeam: {
-        p1: string,
-        p2: string,
-        p3: string,
-        p4: string,
-        p5: string,
-        p6: string
+        p1: any,
+        p2: any,
+        p3: any,
+        p4: any,
+        p5: any,
+        p6: any
     }
 }

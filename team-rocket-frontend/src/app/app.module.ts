@@ -19,6 +19,7 @@ import { HttpModule } from '@angular/http';
 import { PokeTeamService } from './components/teams/pokeTeam.service';
 import { TeamComponent } from './team/team.component';
 import { TeamsPageService } from './components/teams/teams-page.service';
+import { EditTeamComponent } from './components/edit-team/edit-team.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { TeamsPageService } from './components/teams/teams-page.service';
     PokemonComponent,
     PokemonCardComponent,
     TeamComponent,
+    EditTeamComponent,
   ],
   imports: [
     BrowserModule,
