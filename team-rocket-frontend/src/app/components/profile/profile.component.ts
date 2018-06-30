@@ -13,10 +13,9 @@ import { TeamsPageService } from '../teams/teams-page.service';
 })
 export class ProfileComponent implements OnInit {
   user: User;
-
+  max: number;
   previewTeams: DbTeam[];
   preview: Team[];
-  temp: Team[];
 
   constructor(private serve: TeamsPageService) { }
 
@@ -28,14 +27,20 @@ export class ProfileComponent implements OnInit {
       this.serve.getTeams(this.user.teams);
     }
 
-    // if(this.temp.length > 2) {
-    //   for(let i = 0; i < 2; i++) {
-    //     this.preview.push(this.temp[i]);
-    //   }
-    // } else {
-    //   this.preview = this.temp;
-    // }
+    if(this.preview.length > 2) {
+      this.max = 2;
+    } else {
+      this.max = this.preview.length;
+    }
+    
+  }
 
+  hasNext(num) {
+    if (num < this.max+1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 
