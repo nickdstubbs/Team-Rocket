@@ -1,8 +1,8 @@
-package com.poketeam.pojos;
+package com.teamrocket.pojos;
 
 import javax.persistence.*;
 
-import com.poketeam.daos.PokemonImpl;
+import com.teamrocket.daos.PokemonImpl;
 
 @Entity
 @Table

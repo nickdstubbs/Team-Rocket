@@ -1,18 +1,25 @@
-package com.poketeam.pojos;
+package com.teamrocket.pojos;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.persistence.*;
 
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Component;
 
-import com.poketeam.daos.AccountImpl;
-import com.poketeam.utils.HibernateUtil;
+import com.teamrocket.daos.AccountImpl;
+import com.teamrocket.utils.HibernateUtil;
 
+@Component
 @Entity
 @Table
+@JsonIgnoreProperties("team")
 public class Account extends AccountImpl{
 	
 	// Connect variables to the database
@@ -29,12 +36,6 @@ public class Account extends AccountImpl{
 	@Column
 	private String password;
 	
-	@Column
-	private String first;
-	
-	@Column
-	private String last;
-	
 	@Transient
 	@OneToMany
 	private List<Team> teams;
@@ -44,13 +45,20 @@ public class Account extends AccountImpl{
 	public Account() {
 		super();
 	}
+	
+	public Account(int id) {
+		Account account=accountById(id);
+		this.user_id=account.getUser_id();
+		this.email=account.getEmail();
+		this.password=account.getPassword();
+		this.username=account.getUsername();
+		this.teams=loadTeams(this.user_id);
+	}
 
-	public Account(String username, String email, String password, String first, String last) {
+	public Account(String username, String email, String password) {
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.first = first;
-		this.last = last;
 		this.save();
 		
 		Account account = login(username, password);
@@ -62,12 +70,10 @@ public class Account extends AccountImpl{
 		if(account!=null) {
 			this.user_id=account.getUser_id();
 			this.email=account.getEmail();
-			this.first=account.getFirst();
-			this.last=account.getLast();
 			this.password=account.getPassword();
 			this.username=account.getUsername();
 			
-			this.teams=account.getTeams();
+			this.teams=account.loadTeams(user_id);
 			
 			for(Team team : teams) {
 				team.setPokemon(team.loadPokemon(team.getTeamId()));
@@ -157,32 +163,32 @@ public class Account extends AccountImpl{
 		this.merge();
 	}
 
-	public String getFirst() {
-		return first;
-	}
-
-	public void setFirst(String first) {
-		this.first = first;
-		this.merge();
-	}
-
-	public String getLast() {
-		return last;
-	}
-
-	public void setLast(String last) {
-		this.last = last;
-		this.merge();
-	}
-
 	public int getUser_id() {
 		return user_id;
 	}
 	
 	public List<Team> getTeams(){
+		teams=loadTeams(this.user_id);
+		for(Team team : teams) {
+			team.setPokemon(team.loadPokemon(team.getTeamId()));
+		}
 		return teams;
 	}
 	
+	public List<Team> getPulbicTeams()
+	{
+		List<Team> publicTeams = teams;
+		for(int i=0; i<publicTeams.size();i++) {
+			if(publicTeams.get(i).getVisibility().equals("Private")) {
+				publicTeams.remove(i);
+			}
+			else {
+				publicTeams.get(i).setPokemon(publicTeams.get(i).loadPokemon(publicTeams.get(i).getTeamId()));
+			}
+		}
+		System.out.println(publicTeams);
+		return publicTeams;
+	}
 	public void setTeams(List<Team> teams) {
 		this.teams=teams;
 	}
@@ -194,8 +200,6 @@ public class Account extends AccountImpl{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((first == null) ? 0 : first.hashCode());
-		result = prime * result + ((last == null) ? 0 : last.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((teams == null) ? 0 : teams.hashCode());
 		result = prime * result + user_id;
@@ -216,16 +220,6 @@ public class Account extends AccountImpl{
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
-			return false;
-		if (first == null) {
-			if (other.first != null)
-				return false;
-		} else if (!first.equals(other.first))
-			return false;
-		if (last == null) {
-			if (other.last != null)
-				return false;
-		} else if (!last.equals(other.last))
 			return false;
 		if (password == null) {
 			if (other.password != null)
@@ -250,7 +244,7 @@ public class Account extends AccountImpl{
 	@Override
 	public String toString() {
 		return "Account [user_id=" + user_id + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", first=" + first + ", last=" + last + ", teams=" + teams + "]";
+				+", teams=" + teams + "]";
 	}
 
 

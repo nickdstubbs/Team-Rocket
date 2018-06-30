@@ -1,4 +1,4 @@
-package com.poketeam.utils;
+package com.teamrocket.utils;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

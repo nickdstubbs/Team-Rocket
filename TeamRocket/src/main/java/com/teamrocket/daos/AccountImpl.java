@@ -1,4 +1,4 @@
-package com.poketeam.daos;
+package com.teamrocket.daos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.poketeam.pojos.Account;
-import com.poketeam.pojos.Team;
-import com.poketeam.utils.HibernateUtil;
+import com.teamrocket.pojos.Account;
+import com.teamrocket.pojos.Team;
+import com.teamrocket.utils.HibernateUtil;
+import com.teamrocket.daos.Transactions;
 
 public abstract class AccountImpl extends Transactions implements AccountDao{
 
@@ -27,7 +28,6 @@ public abstract class AccountImpl extends Transactions implements AccountDao{
 		
 		List<Account> accounts=query.list();
 		
-		session.close();
 		
 		if(accounts.size()>0) {
 			newAccount=accounts.get(0);
@@ -39,24 +39,46 @@ public abstract class AccountImpl extends Transactions implements AccountDao{
 	
 	//Used to check and see if there is no account existing with either the given username or password
 	//If there is none, return a new Account object with the related account information, and create a row in the database with the info
-	public Account signUp(String username, String email, String password, String first, String last) {
+	public Account signUp(String username, String email, String password) {
 		Session session = HibernateUtil.getSession();
-		Query query = session.createQuery("from Account where username=:user or email=:em");
+		Query query = session.createQuery("Select username, email from Account where username=:user or email=:em");
 		query.setString("user", username);
 		query.setString("em", email);
 		
 		List<Account> accounts=query.list();
 		
 		if(accounts.isEmpty()) {
-			Account newAccount = new Account(username, email, password, first, last);
-			newAccount.save();
+			Account newAccount = new Account(username, email, password);
 			return newAccount;
 		}
 		else {
-			session.close();
 			return null;
 		}
 		
+	}
+	
+	public Account accountById(int id) {
+		Session session = HibernateUtil.getSession();
+		Query query = session.createQuery("from Account where user_id=:id");
+		query.setInteger("id", id);
+		
+		List<Account> account = query.list();
+		
+		if(account.size()>0) {
+			return account.get(0);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public List<Account> getAccounts(){
+		Session session = HibernateUtil.getSession();
+		List<Account> accounts=session.createQuery("from Account").list();
+		for(Account account : accounts) {
+			account.loadTeams(account.getUser_id());
+		}
+		return accounts;
 	}
 	
 	//Get all teams belonging to the account represented by id
@@ -65,8 +87,6 @@ public abstract class AccountImpl extends Transactions implements AccountDao{
 		Query query = session.createQuery("from Team where user_id=:id");
 		query.setInteger("id", id);
 		List<Team> teams = query.list();
-		
-		session.close();
 		
 		if(teams==null) {
 			return new ArrayList<Team>();

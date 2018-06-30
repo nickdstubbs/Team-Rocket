@@ -1,4 +1,4 @@
-package com.poketeam.pojos;
+package com.teamrocket.pojos;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -9,9 +9,14 @@ import javax.persistence.*;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import org.hibernate.event.spi.EvictEvent;
+import org.springframework.stereotype.Component;
 
-import com.poketeam.daos.TeamImpl;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.teamrocket.daos.TeamImpl;
 
+@Component
 @Entity
 @Table
 public class Team extends TeamImpl{
@@ -31,7 +36,7 @@ public class Team extends TeamImpl{
 	private String visibility;
 	
 	@Transient
-	@OneToMany(mappedBy="")
+	@OneToMany
 	private List<Pokemon> pokemon;
 
 	//Constructor
@@ -42,7 +47,7 @@ public class Team extends TeamImpl{
 	
 	public Team(int id) {
 		Team team = searchTeam(id);
-		this.userId=team.getuserId();
+//		this.userId=team.getuserId();
 		this.teamName=team.getTeamName();
 		this.visibility=team.getVisibility();
 		this.teamId=team.getTeamId();

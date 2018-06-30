@@ -1,9 +1,9 @@
-package com.poketeam.daos;
+package com.teamrocket.daos;
 
 import java.util.List;
 
-import com.poketeam.pojos.Pokemon;
-import com.poketeam.pojos.Team;
+import com.teamrocket.pojos.Pokemon;
+import com.teamrocket.pojos.Team;
 
 public interface TeamDao {
 	

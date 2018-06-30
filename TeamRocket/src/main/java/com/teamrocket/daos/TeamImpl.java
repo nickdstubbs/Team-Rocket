@@ -1,4 +1,4 @@
-package com.poketeam.daos;
+package com.teamrocket.daos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.poketeam.pojos.Pokemon;
-import com.poketeam.pojos.Team;
-import com.poketeam.utils.HibernateUtil;
+import com.teamrocket.pojos.Pokemon;
+import com.teamrocket.pojos.Team;
+import com.teamrocket.utils.HibernateUtil;
 
 public abstract class TeamImpl extends Transactions implements TeamDao{
 	Session session;
@@ -21,7 +21,6 @@ public abstract class TeamImpl extends Transactions implements TeamDao{
 		Query query = session.createQuery("from Pokemon where teamId=:id");
 		query.setInteger("id", id);
 		List<Pokemon> pokemon = query.list();
-		session.close();
 		return pokemon;
 	}
 	
