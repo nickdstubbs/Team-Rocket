@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Team } from "../../team";
 import { DbTeam } from "../../dbTeam";
+import * as Pokedex  from '../../../../node_modules/pokedex-promise-v2';
 
 @Injectable()
 export class TeamsPageService {
     teams: Team[] = [];
     getTeams(dbTeams: DbTeam[]) {
-        var Pokedex = require('pokedex-promise-v2');
+        //var Pokedex = require('pokedex-promise-v2');
         var options = {
             protocol: 'https',
             timeout: 60 * 1000
