@@ -1,0 +1,26 @@
+<div class="container" align=center>
+  <div class="jumbotron mySignup">
+    <h2>Sign Up</h2>
+    <hr class="my-4">
+    <form class="form-group">
+      <label>Username</label>
+      <input class="form-control" type="text">
+      <br>
+      <label>Email</label>
+      <input class="form-control" type="email">
+      <br>
+      <label>Password</label>
+      <input class="form-control" type="password">
+      <br>
+      <label>Confirm Password</label>
+      <input class="form-control" type="password">
+      <br>
+      <button class="btn myButton" (click)="login()" routerLink="/profile">Sign Up</button>
+    </form>
+    <hr class="my-4">
+    <p>
+      Already have an account?
+      <button class="btn myButton"  routerLink="/log-in">Log In</button>
+    </p>
+  </div>
+</div>

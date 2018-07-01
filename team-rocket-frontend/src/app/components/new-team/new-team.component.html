@@ -1,0 +1,43 @@
+<div class="container">
+  <h1>Create a Team</h1>
+  <div class="pokemonSelection">
+    <div *ngFor="let member of myTeam" class="pokemonCard">
+      <div class="card">
+        <div class="card-img-overlay .myOverlay" routerLink="/profile">
+          <!--This is here so that text can't be highlighted-->
+        </div>
+        <div>
+          <img class="pokemonPic" [src]="member.sprites.front_default" alt="Card image cap">
+        </div>
+        <div class="card-body myCard">
+          <h5 class="card-title">{{member.name}}</h5>
+          <p class="card-text">Level {{member.level}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="teamMeta">
+    <form class="form-group">
+      <h2>Team Name</h2>
+      <input class="form-control" type=text>
+      <br>
+      <h2>Description</h2>
+      <textarea class="form-control" rows="3" cols="100"></textarea>
+      <br>
+      <h2>Visibility</h2>
+      <select class="form-control">
+          <option value="public">Public</option>
+          <option value="private">Private</option>
+      </select>
+      <br>
+      <input type=text [value]="myTeam[0].name" hidden>
+      <input type=text [value]="myTeam[1].name" hidden>
+      <input type=text [value]="myTeam[2].name" hidden>
+      <input type=text [value]="myTeam[3].name" hidden>
+      <input type=text [value]="myTeam[4].name" hidden>
+      <input type=text [value]="myTeam[5].name" hidden>
+      <button class="btn myButton">Save Team</button>
+    </form>
+  </div>
+</div>
