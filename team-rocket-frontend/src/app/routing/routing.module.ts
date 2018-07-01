@@ -18,6 +18,9 @@ const routes: Routes = [
     path: "home",
     component: HomeComponent
   }, {
+    path: "pokedex",
+    component: PokedexComponent
+  }, {
     path: "profile",
     component: ProfileComponent
   }, {
