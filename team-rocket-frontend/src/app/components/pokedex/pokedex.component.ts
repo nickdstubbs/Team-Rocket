@@ -16,8 +16,6 @@ export class PokedexComponent implements OnInit {
   public regionBase: number;
   public offset: number;
   public base: boolean;
-  //Name filtering must be done on this side - get /pokemon?limit=802 and filter by name
-  //Type filtering must be done on this side
   private regions: any[][];
   private tempRegion: string;
   private types: string[];
@@ -39,6 +37,8 @@ export class PokedexComponent implements OnInit {
     this.regionLimit = 802;
     this.base = true;
     this.tempName = "";
+    this.tempRegion = "All";
+    this.tempType = "All";
     this.regions = [["All", 0, 802], ["Kanto", 0, 151], ["Johto", 151, 251], ["Hoenn", 251, 386],
     ["Sinnoh", 386, 493], ["Unova", 493, 649], ["Kalos", 649, 721], ["Alola", 721, 802]];
     this.types = ["All", "Normal", "Fire", "Fighting", "Water", "Flying", "Grass", "Poison", "Electric", "Ground", "Psychic", "Rock",
@@ -50,21 +50,15 @@ export class PokedexComponent implements OnInit {
     this.dex.getPokemonsList(this.interval, (response) => {
       this.results = response as Results;
       this.getResults();
-      console.log(this.results);
     })
   }
-  //use promises to get pokemon details?
   public getResults() {
     this.pokemons = [];
-    let index = 0;
     this.dex = new Pokedex(this.options);
     console.log("Getting results");
-    console.log(this.results);
-    for (let i = this.offset; i < ((this.regionLimit < (this.offset + 20)) ? this.regionLimit : (this.offset + 20)); i++) {
+    for (let i = this.offset + 1; i < ((this.regionLimit < (this.offset + 21)) ? this.regionLimit : (this.offset + 21)); i++) {
       this.dex.getPokemonByName(i, (response) => {
-        console.log(response);
-        this.pokemons[index] = response as Pokemon;
-        index++;
+        this.pokemons.push(response as Pokemon);
         this.pokemons.sort((p1, p2) => p1.id - p2.id);
       });
     }
@@ -74,10 +68,12 @@ export class PokedexComponent implements OnInit {
     this.base = false;
     this.offset += 20;
     this.interval.offset += 20;
-    if (this.tempName.length == 0) {
+    if (this.tempName.length == 0 && this.tempType == "All") {
       this.getResults();
-    } else {
+    } else if (this.tempType == "All") {
       this.filterName2();
+    } else {
+      this.filterType2();
     }
 
   }
@@ -89,10 +85,12 @@ export class PokedexComponent implements OnInit {
       this.base = true;
     }
     if (this.offset == 0) this.base = true;
-    if (this.tempName.length == 0) {
+    if (this.tempName.length == 0 && this.tempType == "All") {
       this.getResults();
-    } else {
+    } else if (this.tempType == "All") {
       this.filterName2();
+    } else {
+      this.filterType2();
     }
   }
 
@@ -102,117 +100,118 @@ export class PokedexComponent implements OnInit {
     for (i = 0; i < this.regions.length; i++) {
       if (this.tempRegion == this.regions[i][0]) {
         this.offset = this.regions[i][1];
+        this.interval.offset = this.regions[i][1];
         this.regionBase = this.regions[i][1];
         this.regionLimit = this.regions[i][2];
+        this.interval.limit = this.regions[i][2] - this.regions[i][1];
       }
     }
-    this.getResults();
+    if (this.tempName.length == 0 && this.tempType == "All") {
+      this.getResults();
+    } else if (this.tempType == "All") {
+      this.filterName2();
+    } else {
+      this.filterType2();
+    }
   }
 
-  //This doesn't work at all, for some reason this.results is undefined in the for loop, but not in the console log
   public filterType(event: any) {
+    // this.tempType = event.target.value;
+    // if (this.tempType == "All") {
+    //   this.getResults();
+    // } else {
+    //   this.pokemons = [];
+    //   this.dex = new Pokedex(this.options);
+    //   this.dex.getTypeByName(this.tempType.toLowerCase(), (response) => {
+    //     console.log(response.pokemon[0]);
+    //     for (let i = 0; this.pokemons.length <= 20; i++) {
+    //       this.dex.getPokemonByName(response.pokemon[i].pokemon.name, (response) => {
+    //         this.pokemons.push(response as Pokemon);
+    //         this.pokemons.sort((p1, p2) => p1.id - p2.id);
+    //       });
+    //     }
+    //   });
+    // }
     console.log("Type Filter");
     this.tempType = event.target.value;
     if (this.tempType == "All") {
       this.getResults();
     } else {
+      this.pokemons = [];
       this.dex = new Pokedex(this.options);
-      this.dex.getTypeByName(this.tempType, (response) => {
+      this.dex.getTypeByName(this.tempType.toLowerCase(), (response) => {
         let index = 0;
-        let breaker = false;
-        for (let i = 0; i < response.pokemon.length; i++) {
+        for (let i = this.offset; i < 20; i++) {
           this.dex.getPokemonByName(response.pokemon[i].pokemon.name, (response) => {
-            if (response.id < this.regionLimit) {
-              this.pokemons[index] = response as Pokemon;
-              if (this.tempType != "All") {
-                let type: any;
-                type = this.pokemons[index].types;
-                if (type[0].type.name == this.tempType.toLowerCase() || type[1] == this.tempType.toLowerCase()) index++;
-              }
-              this.pokemons.sort((p1, p2) => p1.id - p2.id);
-            }
-            else breaker = true;
-          })
-          if (breaker) break;
-          if (index > 20) break;
+            this.pokemons.push(response as Pokemon);
+            this.pokemons.sort((p1, p2) => p1.id - p2.id);
+          });
         }
       });
     }
+  }
 
-    // this.http.get('https://pokeapi.co/api/v2/pokemon/?limit=802').subscribe(result => {
-    //   this.results = result.json() as Results;
-    //   let index = 0;
-    //   console.log(this.tempType);
-    //   for (let j = 0; j < this.regions.length; j++) {
-    //     if (this.tempRegion == this.regions[j][0]) {
-    //       this.offset = this.regions[j][1];
-    //       this.regionBase = this.regions[j][1];
-    //       this.regionLimit = this.regions[j][2];
-    //     }
-    //   }
-    //   for (let i = this.regionBase; i < this.regionLimit; i++) {
-    //     this.http.get(this.results.results[i].url).subscribe(result => {
-    //       this.pokemons[index] = result.json() as Pokemon;
-    //       if (this.tempType != "All") {
-    //         let type: any;
-    //         type = this.pokemons[index].types;
-    //         if (type[0].type.name == this.tempType.toLowerCase() || type[1] == this.tempType.toLowerCase()) index++;
-    //       }
-    //       this.pokemons.sort((p1, p2) => p1.id - p2.id);
-    //     }, error => console.error(error));
-    //     if (index > 20) break;
-    //   }
-    // }, error => console.error(error));
+  public filterType2() {
+    this.pokemons = [];
+    this.dex = new Pokedex(this.options);
+    this.dex.getTypeByName(this.tempType.toLowerCase(), (response) => {
+      let index = 0;
+      for (let i = this.offset; i< this.offset + 20; i++) {
+        this.dex.getPokemonByName(response.pokemon[i].pokemon.name, (response) => {
+          this.pokemons.push(response as Pokemon);
+          this.pokemons.sort((p1, p2) => p1.id - p2.id);
+        });
+      }
+    });
   }
 
   public filterName(event: any) {
     //filter results by name
-    console.log("filtering by name");
     this.tempName = event.target.value;
     this.pokemons = [];
     for (let j = 0; j < this.regions.length; j++) {
       if (this.tempRegion == this.regions[j][0]) {
         this.offset = this.regions[j][1];
+        this.interval.offset = this.regions[j][1];
         this.regionBase = this.regions[j][1];
         this.regionLimit = this.regions[j][2];
+        this.interval.limit = this.regions[j][2] - this.regions[j][1];
       }
     }
     if (this.tempName.length == 0) {    //Blank entry
       this.getResults();
     } else {
-      this.http.get('https://pokeapi.co/api/v2/pokemon/?limit=802').subscribe(result => {
-        let results2 = result.json() as Results;
-        let index = 0;
-        for (let i = this.offset; i < this.regionLimit; i++) {
-          console.log(i);
+      this.dex = new Pokedex(this.options);
+      this.dex.getPokemonsList(this.interval, (response) => {
+        let results2 = response as Results;
+        console.log(results2);
+        for (let i = 1; i < (this.regionLimit - this.offset); i++) {
           if (results2.results[i].name.indexOf(this.tempName.toLowerCase()) >= 0) {
-            this.http.get(results2.results[i].url).subscribe(result => {
-              this.pokemons[index] = result.json() as Pokemon;
-              index++;
+            console.log(results2.results[i].name);
+            this.dex.getPokemonByName(i + this.regionBase, (response) => {
+              this.pokemons.push(response as Pokemon);
               this.pokemons.sort((p1, p2) => p1.id - p2.id);
-            }, error => console.error(error));
+            });
           }
-          if (index >= 20) break;
         }
-      }, error => console.error(error));
+      });
     }
   }
   public filterName2() {
     //filter results by name
-    this.http.get('https://pokeapi.co/api/v2/pokemon/?limit=802').subscribe(result => {
-      this.results = result.json() as Results;
-      let index = 0;
-      console.log(this.offset);
-      for (let i = this.offset; i < this.regionLimit, index < 20; i++) {
-        if (this.results.results[i].name.indexOf(this.tempName.toLowerCase()) >= 0) {
-          this.http.get(this.results.results[i].url).subscribe(result => {
-            this.pokemons[index] = result.json() as Pokemon;
-            index++;
+    this.dex = new Pokedex(this.options);
+    this.dex.getPokemonsList(this.interval, (response) => {
+      let results2 = response as Results;
+      for (let i = 1; i < (this.regionLimit - this.offset); i++) {
+        if (results2.results[i].name.indexOf(this.tempName.toLowerCase()) >= 0) {
+          console.log(results2.results[i].name);
+          this.dex.getPokemonByName(i + this.regionBase, (response) => {
+            this.pokemons.push(response as Pokemon);
             this.pokemons.sort((p1, p2) => p1.id - p2.id);
-          }, error => console.error(error));
+          });
         }
       }
-    }, error => console.error(error));
+    });
   }
 }
 
