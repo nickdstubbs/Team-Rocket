@@ -1,14 +1,15 @@
-import { Pokemon } from './pokemon';
+import { Pokemon } from './components/pokemon/pokemon.interface';
+import { teamPokemon } from './components/teams/teamPokemon.interface';
 
 export interface Team {
     nickname: string,
     description: string,
     poketeam: {
-        p1: Pokemon,
-        p2: Pokemon,
-        p3: Pokemon,
-        p4: Pokemon,
-        p5: Pokemon,
-        p6: Pokemon
+        p1: teamPokemon,
+        p2: teamPokemon,
+        p3: teamPokemon,
+        p4: teamPokemon,
+        p5: teamPokemon,
+        p6: teamPokemon
     }
 }

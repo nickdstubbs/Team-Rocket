@@ -20,6 +20,9 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    if(!sessionStorage.getItem("loggedIn")) {
+      sessionStorage.setItem("loggedIn", "false");
+    }
   }
 
 }

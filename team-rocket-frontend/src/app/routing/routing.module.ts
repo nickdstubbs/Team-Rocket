@@ -8,6 +8,7 @@ import { SignUpComponent } from '../components/sign-up/sign-up.component';
 import { LogInComponent } from '../components/log-in/log-in.component';
 import { ExploreComponent } from '../components/explore/explore.component';
 import { PokedexComponent } from '../components/pokedex/pokedex.component';
+import { PokemonComponent } from '../components/pokemon/pokemon.component';
 const routes: Routes = [
   {
     path: '',
@@ -37,6 +38,15 @@ const routes: Routes = [
   }, {
     path: "explore",
     component: ExploreComponent
+  }, {
+    path: 'pokemon/:pokemonId',
+    component: PokemonComponent
+  }, {
+    path: "pokedex",
+    component: PokedexComponent
+  }, {
+    path: '**',
+    redirectTo: 'home'
   }
 ];
 @NgModule({

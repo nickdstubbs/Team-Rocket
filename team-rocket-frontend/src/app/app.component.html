@@ -9,17 +9,17 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
+        <li *ngIf="loggedIn" class="nav-item">
           <a class="nav-link" routerLink="/profile">Profile</a>
         </li>
-        <li class="nav-item" (mouseover)="show()" (mouseleave)="hide()">
+        <li *ngIf="loggedIn" class="nav-item" (mouseover)="show()" (mouseleave)="hide()">
           <a class="nav-link" routerLink="/teams">Teams</a>
           <div *ngIf="showDropdown" class="myDropdownMenu" >
             <a class="nav-link" routerLink="/teams">Your Teams</a>
             <a class="nav-link" routerLink="/new-team">Create Team</a>
           </div>
         </li>
-        <li>
+        <li *ngIf="loggedIn">
           <a class="nav-link" routerLink="/pokedex">Pokedex</a>
         </li>
         <li>
@@ -28,7 +28,7 @@
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <button *ngIf="!loggedIn" class="btn myButton my-2 my-sm-0" routerLink="/log-in">Log In</button>
-        <button *ngIf="loggedIn" class="btn myButton my-2 my-sm-0" routerLink="/home">Log Out</button>
+        <button *ngIf="loggedIn" (click)="logOut()" class="btn myButton my-2 my-sm-0" routerLink="/home">Log Out</button>
       </form>
     </div>
   </nav>

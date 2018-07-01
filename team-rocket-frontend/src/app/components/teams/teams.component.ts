@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Team } from '../../team';
-import { Pokemon } from '../../pokemon';
+import { DbTeam } from '../../dbTeam';
+import { Pokemon } from '../pokemon/pokemon.interface';
+import { PokemonService } from '../pokemon/pokemon.service';
+import { Http } from '@angular/http';
+import { PokeTeamService } from './pokeTeam.service';
+import { teamPokemon } from './teamPokemon.interface';
+import { USER } from '../../mock-user'
+import { TeamsPageService } from './teams-page.service';
 
 @Component({
   selector: 'app-teams',
@@ -9,32 +16,14 @@ import { Pokemon } from '../../pokemon';
 })
 export class TeamsComponent implements OnInit {
   teams: Team[] = [];
-  constructor() {
-    
+
+  dbTeams: DbTeam[] = USER.teams;
+  constructor(private serve: TeamsPageService) {
   }
-
   ngOnInit() {
-    let p: Pokemon = {
-      name: "Rattata",
-      image: "https://cdn.bulbagarden.net/upload/thumb/4/46/019Rattata.png/250px-019Rattata.png",
-      level: 100
-    }
-
-    let t: Team = {
-      nickname: "The Best",
-      description: "All of my top percentage Rattata",
-      poketeam: {
-        p1: p,
-        p2: p,
-        p3: p,
-        p4: p,
-        p5: p,
-        p6: p
-      }
-    }
-
-    for(let i = 0; i < 7; i++) {
-      this.teams.push(t);
+    this.teams = this.serve.teams;
+    if (this.serve.teams.length < 1) {
+      this.serve.getTeams(this.dbTeams);
     }
   }
 
