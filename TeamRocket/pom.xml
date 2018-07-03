@@ -16,7 +16,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.3.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+	</parent> 
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,10 +27,10 @@
 	<dependencies>
 	
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
+           <groupId>org.twitter4j</groupId>
+           <artifactId>twitter4j-core</artifactId>
+           <version>[4.0,)</version>
+  	</dependency>
 	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -48,40 +48,43 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<dependency>
+		 <dependency>
 		<groupId>org.hibernate</groupId>
 		<artifactId>hibernate-core</artifactId>
 		<version>4.3.11.Final</version>
-  	</dependency>
+  	</dependency> 
   	
   	<dependency>
   		<groupId>com.oracle</groupId>
   		<artifactId>ojdbc7</artifactId>
   		<version>12.1.0</version>
-  	</dependency>
+  	</dependency> 
   	
   	<dependency>
 		<groupId>org.hibernate</groupId>
 		<artifactId>hibernate-entitymanager</artifactId>
 		<version>4.3.11.Final</version>
-	</dependency>
+	</dependency> 
 	
 	<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 		</dependency>
-		<dependency>
+		 <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<version>1.2</version> 
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.6.3</version>
-		</dependency>
-	</dependencies>
+		</dependency> -->
+		
+		</dependencies>
+	
+	
 
 	<build>
 		<plugins>

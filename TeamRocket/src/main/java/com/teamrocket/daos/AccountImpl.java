@@ -93,4 +93,13 @@ public abstract class AccountImpl extends Transactions implements AccountDao{
 		}
 		return teams;
 	}
+	
+	public List<Team> getAllPublicTeams(){
+		Session session = HibernateUtil.getSession();
+		List<Team> teams = session.createQuery("from Team where visibility='Public'").list();
+		for(Team team : teams) {
+			team.loadPokemon(team.getTeamId());
+		}
+		return teams;
+	}
 }
