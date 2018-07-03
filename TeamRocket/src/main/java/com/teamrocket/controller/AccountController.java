@@ -36,7 +36,6 @@ public class AccountController {
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/accounts")
 	@ResponseBody
 	public String getAccounts() {
-		account = (Account) session.getAttribute("loggedIn");
 		List<Account> accounts =new Account().getAccounts();
 		return formatAccounts(accounts);
 	}
@@ -148,7 +147,7 @@ public class AccountController {
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/accounts/teams")
 	@ResponseBody
 	public List<Team> getPublicTeams(){
-		List<Team> teams = account.getAllPublicTeams();
+		List<Team> teams = new Account().getAllPublicTeams();
 		for(Team team : teams) {
 			team.setPokemon(team.loadPokemon(team.getTeamId()));
 		}
