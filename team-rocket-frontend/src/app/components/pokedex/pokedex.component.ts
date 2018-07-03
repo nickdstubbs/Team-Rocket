@@ -4,12 +4,14 @@ import { Pokemon } from '../pokemon/pokemon.interface';
 import { Results } from '../results/results.interface';
 import { PokemonService } from '../pokemon/pokemon.service';
 import * as Pokedex from '../../../../node_modules/pokedex-promise-v2';
+import { User } from '../../user';
 @Component({
   selector: 'pok-pokedex',
   templateUrl: './pokedex.component.html'
 })
 export class PokedexComponent implements OnInit {
   public pokemons: Pokemon[];
+  public curUser: User;
   public results: Results;
   public limit: number;
   public regionLimit: number;
@@ -116,22 +118,6 @@ export class PokedexComponent implements OnInit {
   }
 
   public filterType(event: any) {
-    // this.tempType = event.target.value;
-    // if (this.tempType == "All") {
-    //   this.getResults();
-    // } else {
-    //   this.pokemons = [];
-    //   this.dex = new Pokedex(this.options);
-    //   this.dex.getTypeByName(this.tempType.toLowerCase(), (response) => {
-    //     console.log(response.pokemon[0]);
-    //     for (let i = 0; this.pokemons.length <= 20; i++) {
-    //       this.dex.getPokemonByName(response.pokemon[i].pokemon.name, (response) => {
-    //         this.pokemons.push(response as Pokemon);
-    //         this.pokemons.sort((p1, p2) => p1.id - p2.id);
-    //       });
-    //     }
-    //   });
-    // }
     console.log("Type Filter");
     this.tempType = event.target.value;
     if (this.tempType == "All") {
