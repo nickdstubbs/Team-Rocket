@@ -82,6 +82,21 @@ public class Account extends AccountImpl{
 	}
 	
 	//Methods 
+	
+	public List<Team> getPulbicTeams(int id)
+	{
+		List<Team> publicTeams = this.loadTeams(id);
+		for(int i=0; i<publicTeams.size();i++) {
+			if(publicTeams.get(i).getVisibility().equals("Private")) {
+				publicTeams.remove(i);
+			}
+			else {
+				publicTeams.get(i).setPokemon(publicTeams.get(i).loadPokemon(publicTeams.get(i).getTeamId()));
+			}
+		}
+		return publicTeams;
+	}
+	
 	public void removeTeamByName(String name) {
 		Team remove=null;
 		for(Team team : teams) {
