@@ -5,5 +5,11 @@
       <input class="form-control search" type="text">
       <button class="btn myButton sendSearch" type="submit">search</button>
     </form>
+
+    
+  </div>
+  <div *ngFor="let user of users">
+    <p>{{user.username}}</p>
+
   </div>
 </div>

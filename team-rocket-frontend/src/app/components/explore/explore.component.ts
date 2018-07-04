@@ -14,11 +14,15 @@ export class ExploreComponent implements OnInit {
 
   ngOnInit() {
     this.getUsers();
+    //console.log(this.users);
   }
 
   getUsers() {
-    console.log("getting users");
-    this.exploreService.getUsers().subscribe();
+    //console.log("getting users");
+    this.exploreService.getUsers().subscribe((res) => {
+      this.users=res
+      console.log(res);
+    });
   }
 
 }
