@@ -6,9 +6,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -36,7 +38,6 @@ public class AccountController {
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/accounts")
 	@ResponseBody
 	public String getAccounts() {
-		account = (Account) session.getAttribute("loggedIn");
 		List<Account> accounts =new Account().getAccounts();
 		return formatAccounts(accounts);
 	}
@@ -105,7 +106,7 @@ public class AccountController {
 			return account.getTeams();
 	}
 	
-	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team")
+	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team")
 	@ResponseBody
 	public Team getLoggedInTeam(@RequestParam("teamId") int teamId) {
 		account = (Account) session.getAttribute("loggedIn");
@@ -113,7 +114,7 @@ public class AccountController {
 	}
 	
 	//Delete Team
-	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/delete")
+	@DeleteMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/delete")
 	@ResponseBody
 	public String removeTeam(@RequestParam("teamId") int teamId) {
 		account = (Account) session.getAttribute("loggedIn");
@@ -131,13 +132,13 @@ public class AccountController {
 	}
 	
 	//Get Public Teams for non logged account
-	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/accounts/team")
+	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/accounts/team")
 	@ResponseBody
 	public List<Team> getPublicTeamsById(@RequestParam("userId") int userId){
 		account=new Account().accountById(userId);
 		List<Team> teams = account.getTeams();
 		for(Team team : account.getTeams()) {
-			if(team.getVisibility()=="Public") {
+			if(team.getVisibility().equals("Public")) {
 				team.setPokemon(team.loadPokemon(team.getTeamId()));
 				teams.add(team);
 			}
@@ -148,7 +149,7 @@ public class AccountController {
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/accounts/teams")
 	@ResponseBody
 	public List<Team> getPublicTeams(){
-		List<Team> teams = account.getAllPublicTeams();
+		List<Team> teams = new Account().getAllPublicTeams();
 		for(Team team : teams) {
 			team.setPokemon(team.loadPokemon(team.getTeamId()));
 		}
@@ -156,7 +157,7 @@ public class AccountController {
 	}
 	
 	//Change a users account information
-	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/change-info")
+	@PutMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/change-info")
 	@ResponseBody
 	public String changeAccount(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email) {
 		account= (Account) session.getAttribute("loggedIn");
@@ -168,7 +169,7 @@ public class AccountController {
 	}
 	
 	//Change a teams information
-	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/change-info")
+	@PutMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/change-info")
 	@ResponseBody
 	public Team changeTeam(@RequestParam("teamId") int teamId, @RequestParam("teamName") String teamName, @RequestParam("visibility") String visibility) {
 		account= (Account) session.getAttribute("loggedIn");
@@ -180,7 +181,7 @@ public class AccountController {
 		return team;
 	}
 	
-	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/pokemon/delete")
+	@DeleteMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/pokemon/delete")
 	@ResponseBody
 	public String deletePokemon(@RequestParam("teamId") int teamId, @RequestParam("position") int position) {
 		account = (Account) session.getAttribute("loggedIn");
@@ -204,7 +205,7 @@ public class AccountController {
 	}
 	
 	//Change a Pokemon's info
-	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/pokemon/change-info")
+	@PutMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/pokemon/change-info")
 	@ResponseBody
 	public Pokemon changePokemon(@RequestParam("id") int id, @RequestParam("teamId") int teamId, @RequestParam("name") String name, @RequestParam("level") int level) {
 		
