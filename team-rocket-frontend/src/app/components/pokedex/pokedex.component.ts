@@ -227,7 +227,7 @@ export class PokedexComponent implements OnInit {
       }
     }
     //make call to backend to update the team
-    //url = teamrocket.us-east-2.elasticbeanstalk.com
+    //url = teamrocket.us-east-2.elasticbeanstalk.com test change
     this.http.put("teamrocket.us-east-2.elasticbeanstalk.com/accounts/teams",this.curTeam).subscribe();
   }
 
