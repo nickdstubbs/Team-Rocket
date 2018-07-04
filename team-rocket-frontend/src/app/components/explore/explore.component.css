@@ -4,6 +4,6 @@
     margin-right: 10px;
 }
 
-.sendSearch {
-    display: inline-block;
+.text {
+    color: var(--main-color);
 }

@@ -1,15 +1,12 @@
 <div class="container">
   <h1>Find Other Trainers</h1>
   <div class="jumbotron">
-    <form>
-      <input class="form-control search" type="text">
-      <button class="btn myButton sendSearch" type="submit">search</button>
-    </form>
-
-    
-  </div>
-  <div *ngFor="let user of users">
-    <p>{{user.username}}</p>
-
+    <h2 class="text">Filter
+      <input [value]="str" (input)="str = $event.target.value" name="str" class="form-control search" type="text">
+    </h2>
+    <hr class="my-4">
+    <div *ngFor="let user of users">
+      <p class="text" *ngIf="filter(user.username)">{{user.username}}</p>
+    </div>
   </div>
 </div>

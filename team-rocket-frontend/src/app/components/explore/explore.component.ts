@@ -9,6 +9,7 @@ import { ExploreService } from './explore.service';
 })
 export class ExploreComponent implements OnInit {
   users: User[] = [];
+  str: string = "";
 
   constructor(private exploreService: ExploreService) { }
 
@@ -23,6 +24,10 @@ export class ExploreComponent implements OnInit {
       this.users=res
       console.log(res);
     });
+  }
+
+  filter(name: string): boolean {
+    return name.includes(this.str);
   }
 
 }
