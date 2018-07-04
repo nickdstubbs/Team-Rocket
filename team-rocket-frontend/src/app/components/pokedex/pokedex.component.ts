@@ -156,7 +156,7 @@ export class PokedexComponent implements OnInit {
     this.dex = new Pokedex(this.options);
     this.dex.getTypeByName(this.tempType.toLowerCase(), (response) => {
       let index = 0;
-      for (let i = this.offset; i< this.offset + 20; i++) {
+      for (let i = this.offset; i < this.offset + 20; i++) {
         this.dex.getPokemonByName(response.pokemon[i].pokemon.name, (response) => {
           this.pokemons.push(response as Pokemon);
           this.pokemons.sort((p1, p2) => p1.id - p2.id);

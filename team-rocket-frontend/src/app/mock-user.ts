@@ -1,7 +1,9 @@
 import { User } from "./user";
 
 export const USER: User = {
+    id: 0,
     name: "Youngster Joey",
+    email: "YoungJoe@poke.mon",
     teams: [
         {
             nickname: "Bidoof Troop",
@@ -31,13 +33,13 @@ export const USER: User = {
             nickname: "three",
             description: "",
             poketeam: {
-              p1: String(Math.floor(Math.random()*803)),
-              p2: String(Math.floor(Math.random()*803)),
-              p3: String(Math.floor(Math.random()*803)),
-              p4: String(Math.floor(Math.random()*803)),
-              p5: String(Math.floor(Math.random()*803)),
-              p6: String(Math.floor(Math.random()*803))
+                p1: String(Math.floor(Math.random() * 803)),
+                p2: String(Math.floor(Math.random() * 803)),
+                p3: String(Math.floor(Math.random() * 803)),
+                p4: String(Math.floor(Math.random() * 803)),
+                p5: String(Math.floor(Math.random() * 803)),
+                p6: String(Math.floor(Math.random() * 803))
             }
-          }
+        }
     ]
 }

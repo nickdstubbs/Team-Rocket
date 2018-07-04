@@ -18,6 +18,7 @@ import { PokeTeamService } from './components/teams/pokeTeam.service';
 import { TeamComponent } from './team/team.component';
 import { TeamsPageService } from './components/teams/teams-page.service';
 import { EditTeamComponent } from './components/edit-team/edit-team.component';
+import { ExploreService } from './components/explore/explore.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,12 @@ import { EditTeamComponent } from './components/edit-team/edit-team.component';
     RoutingModule,
     HttpModule
   ],
-  providers: [PokemonService, PokeTeamService, TeamsPageService],
+  providers: [
+    PokemonService, 
+    PokeTeamService, 
+    TeamsPageService,
+    ExploreService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
