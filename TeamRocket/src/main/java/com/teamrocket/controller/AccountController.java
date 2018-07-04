@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.teamrocket.pojos.Account;
 import com.teamrocket.pojos.Pokemon;
@@ -25,7 +27,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-@Controller
+@RestController
 public class AccountController {
 
 	@Autowired
@@ -35,21 +37,27 @@ public class AccountController {
 	HttpSession session;
 	
 	//Retrieve all accounts
-	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/accounts")
-	@ResponseBody
+	@CrossOrigin(origins="/**")
+	@GetMapping(value="/accounts")
 	public String getAccounts() {
 		List<Account> accounts =new Account().getAccounts();
 		return formatAccounts(accounts);
 	}
 	
 	//Retrieve one account if exists (Login)
+	@CrossOrigin(origins="*")
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/login")
 	@ResponseBody	
 	public String login(@RequestParam("username") String username, @RequestParam("password") String password) {
-		account=account.login(username, password);
-		if(account!=null) {
-			session.setAttribute("loggedIn", account);
-			return formatAccount(account);
+		if(session.getAttribute("loggedIn")==null) {
+			account=account.login(username, password);
+			if(account!=null) {
+				session.setAttribute("loggedIn", account);
+				return formatAccount(account);
+			}
+			else {
+				return null;
+			}
 		}
 		else {
 			return null;
@@ -58,6 +66,7 @@ public class AccountController {
 	}
 	
 	//End HttpSession
+	@CrossOrigin(origins="/**")
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/logout")
 	@ResponseBody
 	public void logout() {
@@ -65,6 +74,7 @@ public class AccountController {
 	}
 	
 	//Sign up with a new account if credientials are available
+	@CrossOrigin(origins="*")
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/signup")
 	@ResponseBody
 	public String signup(@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password){
@@ -73,44 +83,72 @@ public class AccountController {
 		
 		if(newAccount!=null) {
 			session.setAttribute("loggedIn", newAccount);
+			return formatAccount(newAccount);
 		}
-		return formatAccount(newAccount);
+		else {
+			return null;
+		}
 	}
 	
 	//Add team to logged account
+	@CrossOrigin(origins="*")
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/teams/add")
 	@ResponseBody
 	public Team addTeam(@RequestParam("teamName") String teamName, @RequestParam("visibility") String visibility) {
 		account=(Account) session.getAttribute("loggedIn");
-		account.addTeam(teamName, visibility);
+		if(account!=null) {
+			account.addTeam(teamName, visibility);
 			
-		return account.getTeamByName(teamName);
+			return account.getTeamByName(teamName);
+		}
+		else {
+			return null;
+		}
+		
 	}
 	
 	//Add pokemon to team
+	@CrossOrigin(origins="*")
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/pokemon/add")
 	@ResponseBody
 	public Pokemon addPokemon(@RequestParam("pokedexId") int pokedexId, @RequestParam("name") String name, @RequestParam("level") int level, @RequestParam("teamId") int teamId, @RequestParam("position") int position) {
 		account=(Account) session.getAttribute("loggedIn");
-		Team team = account.getTeamById(teamId);
-		team.addPokemon(pokedexId, name, level, null, null, null, null, teamId);
-			
-		return team.getPokemonByPosition(position);
+		if(account!=null) {
+			Team team = account.getTeamById(teamId);
+			team.addPokemon(pokedexId, name, level, null, null, null, null, teamId);
+				
+			return team.getPokemonByPosition(position);
+		}
+		else {
+			return null;
+		}
 	}
 	
 	//Get Teams for logged in account
+	@CrossOrigin(origins="/**")
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/teams")
 	@ResponseBody
 	public List<Team> getTeams() {
 		account = (Account) session.getAttribute("loggedIn");
+		if(account!=null) {
 			return account.getTeams();
+		}
+		else {
+			return null;
+		}
 	}
 	
+	@CrossOrigin(origins="/**")
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team")
 	@ResponseBody
 	public Team getLoggedInTeam(@RequestParam("teamId") int teamId) {
 		account = (Account) session.getAttribute("loggedIn");
-		return account.getTeamById(teamId);
+		if(account!=null) {
+			return account.getTeamById(teamId);
+		}
+		else {
+			return null;
+		}
 	}
 	
 	//Delete Team
@@ -118,34 +156,43 @@ public class AccountController {
 	@ResponseBody
 	public String removeTeam(@RequestParam("teamId") int teamId) {
 		account = (Account) session.getAttribute("loggedIn");
+		
+		if(account!=null) {
+			account.removeTeamById(teamId);
 			
-		account.removeTeamById(teamId);
-			
-		Team team = account.getTeamById(teamId);
-		if(team==null) {
-			return "Team deleted successfully";
+			Team team = account.getTeamById(teamId);
+			if(team==null) {
+				return "Team deleted successfully";
+			}
+			else {
+				return "Team did not delete";
+			}
 		}
 		else {
-			return "Team did not delete";
+			return null;
 		}
 		
 	}
 	
 	//Get Public Teams for non logged account
+	@CrossOrigin(origins="/**")
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/accounts/team")
 	@ResponseBody
 	public List<Team> getPublicTeamsById(@RequestParam("userId") int userId){
 		account=new Account().accountById(userId);
-		List<Team> teams = account.getTeams();
-		for(Team team : account.getTeams()) {
-			if(team.getVisibility().equals("Public")) {
-				team.setPokemon(team.loadPokemon(team.getTeamId()));
-				teams.add(team);
+			List<Team> teams = account.getTeams();
+			for(Team team : account.getTeams()) {
+				if(team.getVisibility().equals("Private")) {
+					teams.remove(team);
+				}
+				else {
+					team.setPokemon(team.loadPokemon(team.getTeamId()));
+				}
 			}
-		}
-		return teams;
+			return teams;
 	}
 	
+	@CrossOrigin(origins="/**")
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/accounts/teams")
 	@ResponseBody
 	public List<Team> getPublicTeams(){
@@ -161,11 +208,16 @@ public class AccountController {
 	@ResponseBody
 	public String changeAccount(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email) {
 		account= (Account) session.getAttribute("loggedIn");
-		account.setEmail(email);
-		account.setPassword(password);
-		account.setUsername(username);
-			
-		return formatAccount(account);
+		if(account!=null){
+			account.setEmail(email);
+			account.setPassword(password);
+			account.setUsername(username);
+				
+			return formatAccount(account);
+		}
+		else {
+			return null;
+		}
 	}
 	
 	//Change a teams information
@@ -173,12 +225,18 @@ public class AccountController {
 	@ResponseBody
 	public Team changeTeam(@RequestParam("teamId") int teamId, @RequestParam("teamName") String teamName, @RequestParam("visibility") String visibility) {
 		account= (Account) session.getAttribute("loggedIn");
-		Team team = account.getTeamById(teamId);
+		if(account!=null) {
+			Team team = account.getTeamById(teamId);
 			
-		team.setTeamName(teamName);
-		team.setVisibility(visibility);
-			
-		return team;
+			team.setTeamName(teamName);
+			team.setVisibility(visibility);
+				
+			return team;
+		}
+		else {
+			return null;
+		}
+		
 	}
 	
 	@DeleteMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/pokemon/delete")
@@ -210,47 +268,58 @@ public class AccountController {
 	public Pokemon changePokemon(@RequestParam("id") int id, @RequestParam("teamId") int teamId, @RequestParam("name") String name, @RequestParam("level") int level) {
 		
 		account = (Account) session.getAttribute("loggedIn");
-		Team team = account.getTeamById(teamId);
-		Pokemon pokemon = team.getPokemonById(id);
-			
-		pokemon.setLevel(level);
-		pokemon.setName(name);
-			
-		return pokemon;
+		if(account!=null) {
+			Team team = account.getTeamById(teamId);
+			Pokemon pokemon = team.getPokemonById(id);
+				
+			pokemon.setLevel(level);
+			pokemon.setName(name);
+				
+			return pokemon;
+		}
+		else {
+			return null;
+		}
 		
 	}
 	
 	
-	
+	@CrossOrigin(origins="*")
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/post-tweet")
 	@ResponseBody
 	public String postTweet(@RequestParam("message") String message) {
 		Twitter twitter = TwitterFactory.getSingleton();
 		account = (Account) session.getAttribute("loggedIn");
-		
-		//Check to see if the consumer is set
-		try {
-			twitter.setOAuthConsumer("HtrSNuhruRDeHsj0AP12Xqj1Q", "k2JzXoZDGiNbHHc3MUchxeae3Vn9Lt1mw4zvxngTe5QiGyZ3Za");
-		} catch(Exception e) {
-			
-		}
-		
-		TwitterInfo twit = new TwitterInfo(account.getUser_id());
-		if(twit.getUserId()==0) {
+		if(account!=null) {
+			//Check to see if the consumer is set
 			try {
-				RequestToken rt = twitter.getOAuthRequestToken();
-				String url = rt.getAuthenticationURL();
-				session.setAttribute("twitter", twitter);
-				session.setAttribute("message", message);
-				session.setAttribute("requestToken", rt);
-				return url;
-			} catch (TwitterException e) {
-				return "Error";
+				twitter.setOAuthConsumer("HtrSNuhruRDeHsj0AP12Xqj1Q", "k2JzXoZDGiNbHHc3MUchxeae3Vn9Lt1mw4zvxngTe5QiGyZ3Za");
+			} catch(Exception e) {
+				
 			}
+			
+			TwitterInfo twit = new TwitterInfo(account.getUser_id());
+			if(twit.getUserId()==0) {
+				try {
+					RequestToken rt = twitter.getOAuthRequestToken();
+					String url = rt.getAuthenticationURL();
+					session.setAttribute("twitter", twitter);
+					session.setAttribute("message", message);
+					session.setAttribute("requestToken", rt);
+					return url;
+				} catch (TwitterException e) {
+					return "Error";
+				}
+			}
+			return twit.post(message, twitter);
 		}
-		return twit.post(message, twitter);
+		else {
+			return null;
+		}
+		
 	}
 	
+	@CrossOrigin(origins="*")
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/new-twitter")
 	@ResponseBody
 	public String newTwitter(@RequestParam("pin") String pin, @RequestParam(value="save", required=false) boolean save) throws TwitterException {
