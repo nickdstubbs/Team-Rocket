@@ -29,7 +29,6 @@ export class LogInComponent implements OnInit {
       console.log(res);
       if(res.json() == undefined){
         this.message = "invalid cridentials";
-        console.log("invalid");
       } else {
         this.login();
       }
