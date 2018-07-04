@@ -1,5 +1,5 @@
 export class teamPokemon {
-    id: number;
+    id: any;
     name: string;
     level: number;
     sprites: {
