@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   title = "Team Rocket";
   phrase = "Prepare for trouble!";
+  loggedIn: boolean;
 
   toggle( ) {
     if(this.phrase === "Prepare for trouble!") {
@@ -22,6 +23,11 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     if(!sessionStorage.getItem("loggedIn")) {
       sessionStorage.setItem("loggedIn", "false");
+    }
+    if(sessionStorage.getItem("loggedIn") == "true") {
+      this.loggedIn = true;
+    } else {
+      this.loggedIn = false;
     }
   }
 

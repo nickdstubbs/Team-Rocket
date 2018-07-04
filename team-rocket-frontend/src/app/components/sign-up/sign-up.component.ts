@@ -25,18 +25,24 @@ export class SignUpComponent implements OnInit {
   }
 
   attemptSignup() {
-    if(this.password != this.passconf) {
-      this.message = "Passwords didn't match";
-    } else if(! /\w+@\w+\.\w+/.test(this.email)) {
+    if (this.username == "" || this.email == "" || this.password == "" || this.passconf == "") {
+      this.message = "All fields must be completed"
+    } else if (/\W/.test(this.username)) {
+      this.message = "Username must be alpha numeric, but can include underscores";
+    } else if (/\W/.test(this.password)!) {
+      this.message = "Passwords must be alpha numeric, but can include underscores";
+    } else if (this.password != this.passconf) {
+      this.message = "Passwords didn't match"
+    } else if (! /\w+@\w+\.\w+/.test(this.email)) {
       this.message = "Invalid email"
     } else {
-      this.http.post('http://team-rocket.us-east-2.elasticbeanstalk.com/signup?username='+this.username+'&email='+this.email+'&password'+this.password, "").subscribe((res) => {
-        if(res.json() == undefined) {
+      this.http.post('http://team-rocket.us-east-2.elasticbeanstalk.com/signup?username=' + this.username + '&email=' + this.email + '&password=' + this.password, "").subscribe((res) => {
+        if (res.json().id == 0) {
           this.message = "account taken";
         } else {
           this.login();
         }
-      })
+      });
     }
   }
 

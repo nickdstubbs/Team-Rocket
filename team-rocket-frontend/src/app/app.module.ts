@@ -19,6 +19,7 @@ import { TeamComponent } from './team/team.component';
 import { TeamsPageService } from './components/teams/teams-page.service';
 import { EditTeamComponent } from './components/edit-team/edit-team.component';
 import { ExploreService } from './components/explore/explore.service';
+import { TrainerComponent } from './components/trainer/trainer.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ExploreService } from './components/explore/explore.service';
     PokemonCardComponent,
     TeamComponent,
     EditTeamComponent,
+    TrainerComponent,
   ],
   imports: [
     BrowserModule,

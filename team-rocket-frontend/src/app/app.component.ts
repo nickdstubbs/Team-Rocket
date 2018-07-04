@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ export class AppComponent implements OnInit{
   loggedIn;
   showDropdown = false;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private router: Router) { }
   show() {
     this.showDropdown = true;
   }
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit{
   logOut() {
     this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/logout').subscribe;
     sessionStorage.setItem("loggedIn", "false");
+    this.router.navigate(['/home']);
   }
 
   
