@@ -4,14 +4,14 @@
     <div class="cardContainer" *ngFor="let team of teams">
       <div class="card">
         <div>
-          <img class="cardPic" [src]="team.poketeam.p1.sprites.front_default" alt="Card image cap">
-          <img class="cardPic" [src]="team.poketeam.p2.sprites.front_default" alt="Card image cap">
-          <img class="cardPic" [src]="team.poketeam.p3.sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="team.poketeam[0].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="team.poketeam[1].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="team.poketeam[2].sprites.front_default" alt="Card image cap">
         </div>
         <div>
-          <img class="cardPic" [src]="team.poketeam.p4.sprites.front_default" alt="Card image cap">
-          <img class="cardPic" [src]="team.poketeam.p5.sprites.front_default" alt="Card image cap">
-          <img class="cardPic" [src]="team.poketeam.p6.sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="team.poketeam[3].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="team.poketeam[4].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="team.poketeam[5].sprites.front_default" alt="Card image cap">
         </div>
         <div class="card-body myCard">
           <h5 class="card-title">{{team.nickname}}</h5>
