@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../../user';
+import { ExploreService } from './explore.service';
 
 @Component({
   selector: 'app-explore',
@@ -6,10 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./explore.component.css']
 })
 export class ExploreComponent implements OnInit {
+  users: User[] = [];
 
-  constructor() { }
+  constructor(private exploreService: ExploreService) { }
 
   ngOnInit() {
+    this.getUsers();
+  }
+
+  getUsers() {
+    console.log("getting users");
+    this.exploreService.getUsers().subscribe();
   }
 
 }

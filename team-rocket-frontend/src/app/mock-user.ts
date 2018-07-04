@@ -3,7 +3,7 @@ import { User } from "./user";
 export const USER: User = {
     id: 0,
     name: "Youngster Joey",
-    email: "",
+    email: "YoungJoe@poke.mon",
     teams: [
         {
             nickname: "Bidoof Troop",
@@ -128,6 +128,7 @@ export const USER: User = {
         {
             nickname: "three",
             description: "",
+
             poketeam: [
                 {
                     id: String(Math.floor(Math.random() * 803)),
