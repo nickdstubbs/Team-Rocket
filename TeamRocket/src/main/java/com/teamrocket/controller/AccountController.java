@@ -138,7 +138,7 @@ public class AccountController {
 		account=new Account().accountById(userId);
 		List<Team> teams = account.getTeams();
 		for(Team team : account.getTeams()) {
-			if(team.getVisibility()=="Public") {
+			if(team.getVisibility().equals("Public")) {
 				team.setPokemon(team.loadPokemon(team.getTeamId()));
 				teams.add(team);
 			}
