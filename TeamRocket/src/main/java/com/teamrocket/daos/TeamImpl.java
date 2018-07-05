@@ -38,8 +38,12 @@ public abstract class TeamImpl extends Transactions implements TeamDao{
 		
 		if(teams.isEmpty())
 			return null;
-		else
+		else {
+			Team team = teams.get(0);
+			team.setPokemon(team.loadPokemon(team.getTeamId()));
 			return teams.get(0);
+		}
+			
 	}
 
 }

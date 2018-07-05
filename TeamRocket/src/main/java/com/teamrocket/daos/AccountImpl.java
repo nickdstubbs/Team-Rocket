@@ -28,7 +28,6 @@ public abstract class AccountImpl extends Transactions implements AccountDao{
 		
 		List<Account> accounts=query.list();
 		
-		
 		if(accounts.size()>0) {
 			newAccount=accounts.get(0);
 			newAccount.setTeams(loadTeams(newAccount.getUser_id()));

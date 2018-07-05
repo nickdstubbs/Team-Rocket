@@ -12,10 +12,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.teamrocket.forms.accountChange;
+import com.teamrocket.forms.addPokemonForm;
+import com.teamrocket.forms.addTeamForm;
+import com.teamrocket.forms.deletePokemonForm;
+import com.teamrocket.forms.deleteTeamForm;
+import com.teamrocket.forms.loginForm;
+import com.teamrocket.forms.pokemonChange;
+import com.teamrocket.forms.signupForm;
+import com.teamrocket.forms.teamChange;
+import com.teamrocket.forms.tweetForm;
 import com.teamrocket.pojos.Account;
 import com.teamrocket.pojos.Pokemon;
 import com.teamrocket.pojos.Team;
@@ -48,22 +59,16 @@ public class AccountController {
 	@CrossOrigin(origins="*")
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/login")
 	@ResponseBody	
-	public String login(@RequestParam("username") String username, @RequestParam("password") String password) {
-		if(session.getAttribute("loggedIn")==null) {
-			account=account.login(username, password);
+	public String login(@RequestBody loginForm login) {
+			account = new Account().login(login.getUsername(), login.getPassword());
 			if(account!=null) {
 				session.setAttribute("loggedIn", account);
 				return formatAccount(account);
 			}
 			else {
-				return null;
+				return formatAccount(new Account());
 			}
 		}
-		else {
-			return null;
-		}
-		
-	}
 	
 	//End HttpSession
 	@CrossOrigin(origins="/**")
@@ -77,16 +82,16 @@ public class AccountController {
 	@CrossOrigin(origins="*")
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/signup")
 	@ResponseBody
-	public String signup(@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password){
+	public String signup(@RequestBody signupForm sf){
 		
-		Account newAccount = account.signUp(username, email, password);
+		Account newAccount = account.signUp(sf.getUsername(), sf.getEmail(), sf.getPassword());
 		
 		if(newAccount!=null) {
 			session.setAttribute("loggedIn", newAccount);
 			return formatAccount(newAccount);
 		}
 		else {
-			return null;
+			return formatAccount(new Account());
 		}
 	}
 	
@@ -94,15 +99,15 @@ public class AccountController {
 	@CrossOrigin(origins="*")
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/teams/add")
 	@ResponseBody
-	public Team addTeam(@RequestParam("teamName") String teamName, @RequestParam("visibility") String visibility) {
-		account=(Account) session.getAttribute("loggedIn");
+	public Team addTeam(@RequestBody addTeamForm atf) {
+		account=new Account().accountById(atf.getUserId());
 		if(account!=null) {
-			account.addTeam(teamName, visibility);
+			account.addTeam(atf.getTeamName(), atf.getVisibility());
 			
-			return account.getTeamByName(teamName);
+			return account.getTeamByName(atf.getTeamName());
 		}
 		else {
-			return null;
+			return new Team();
 		}
 		
 	}
@@ -111,25 +116,33 @@ public class AccountController {
 	@CrossOrigin(origins="*")
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/pokemon/add")
 	@ResponseBody
-	public Pokemon addPokemon(@RequestParam("pokedexId") int pokedexId, @RequestParam("name") String name, @RequestParam("level") int level, @RequestParam("teamId") int teamId, @RequestParam("position") int position) {
-		account=(Account) session.getAttribute("loggedIn");
+	public Pokemon addPokemon(@RequestBody addPokemonForm apf) {
+		account=new Account().accountById(apf.getUserId());
 		if(account!=null) {
-			Team team = account.getTeamById(teamId);
-			team.addPokemon(pokedexId, name, level, null, null, null, null, teamId);
+			Team team = account.getTeamById(apf.getTeamId());
+			team.addPokemon(apf.getPokedexId(), apf.getName(), apf.getLevel(), null, null, null, null, apf.getTeamId());
 				
-			return team.getPokemonByPosition(position);
+			return team.getPokemonByPosition(apf.getPositon());
 		}
 		else {
-			return null;
+			return new Pokemon();
 		}
+	}
+	
+	@CrossOrigin(origins="/**")
+	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/team")
+	@ResponseBody
+	public Team teamById(@RequestParam("teamId") int teamId) {
+		Team team = new Team().searchTeam(teamId);
+		return team;
 	}
 	
 	//Get Teams for logged in account
 	@CrossOrigin(origins="/**")
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/teams")
 	@ResponseBody
-	public List<Team> getTeams() {
-		account = (Account) session.getAttribute("loggedIn");
+	public List<Team> getTeams(@RequestParam("userId") int userId) {
+		account = new Account().accountById(userId);
 		if(account!=null) {
 			return account.getTeams();
 		}
@@ -141,8 +154,8 @@ public class AccountController {
 	@CrossOrigin(origins="/**")
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team")
 	@ResponseBody
-	public Team getLoggedInTeam(@RequestParam("teamId") int teamId) {
-		account = (Account) session.getAttribute("loggedIn");
+	public Team getLoggedInTeam(@RequestParam("userId") int userId, @RequestParam("teamId") int teamId) {
+		account = new Account().accountById(userId);
 		if(account!=null) {
 			return account.getTeamById(teamId);
 		}
@@ -154,13 +167,13 @@ public class AccountController {
 	//Delete Team
 	@DeleteMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/delete")
 	@ResponseBody
-	public String removeTeam(@RequestParam("teamId") int teamId) {
-		account = (Account) session.getAttribute("loggedIn");
+	public String removeTeam(@RequestBody deleteTeamForm dtf) {
+		account = new Account().accountById(dtf.getUserId());
 		
 		if(account!=null) {
-			account.removeTeamById(teamId);
+			account.removeTeamById(dtf.getTeamId());
 			
-			Team team = account.getTeamById(teamId);
+			Team team = account.getTeamById(dtf.getTeamId());
 			if(team==null) {
 				return "Team deleted successfully";
 			}
@@ -206,12 +219,12 @@ public class AccountController {
 	//Change a users account information
 	@PutMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/change-info")
 	@ResponseBody
-	public String changeAccount(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email) {
-		account= (Account) session.getAttribute("loggedIn");
+	public String changeAccount(@RequestBody accountChange ac) {
+		account= new Account().accountById(ac.getUserId());
 		if(account!=null){
-			account.setEmail(email);
-			account.setPassword(password);
-			account.setUsername(username);
+			account.setEmail(ac.getEmail());
+			account.setPassword(ac.getPassword());
+			account.setUsername(ac.getUsername());
 				
 			return formatAccount(account);
 		}
@@ -223,13 +236,13 @@ public class AccountController {
 	//Change a teams information
 	@PutMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/change-info")
 	@ResponseBody
-	public Team changeTeam(@RequestParam("teamId") int teamId, @RequestParam("teamName") String teamName, @RequestParam("visibility") String visibility) {
-		account= (Account) session.getAttribute("loggedIn");
+	public Team changeTeam(@RequestBody teamChange tc) {
+		account= new Account().accountById(tc.getUserId());
 		if(account!=null) {
-			Team team = account.getTeamById(teamId);
+			Team team = account.getTeamById(tc.getTeamId());
 			
-			team.setTeamName(teamName);
-			team.setVisibility(visibility);
+			team.setTeamName(tc.getTeamName());
+			team.setVisibility(tc.getVisibility());
 				
 			return team;
 		}
@@ -241,16 +254,16 @@ public class AccountController {
 	
 	@DeleteMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/pokemon/delete")
 	@ResponseBody
-	public String deletePokemon(@RequestParam("teamId") int teamId, @RequestParam("position") int position) {
-		account = (Account) session.getAttribute("loggedIn");
+	public String deletePokemon(@RequestBody deletePokemonForm dpf) {
+		account = new Account().accountById(dpf.getUserId());
 		if(account!=null) {
-			Team team = account.getTeamById(teamId);
+			Team team = account.getTeamById(dpf.getTeamId());
 			team.setPokemon(team.loadPokemon(team.getTeamId()));
-			team.removePokemon(position);
+			team.removePokemon(dpf.getPosistion());
 			
 			String result = "";
-			team.loadPokemon(teamId);
-			if(team.getPokemonByPosition(position)==null) {
+			team.loadPokemon(dpf.getTeamId());
+			if(team.getPokemonByPosition(dpf.getPosistion())==null) {
 				result="Delete successful";
 			}
 			else {
@@ -265,15 +278,15 @@ public class AccountController {
 	//Change a Pokemon's info
 	@PutMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/team/pokemon/change-info")
 	@ResponseBody
-	public Pokemon changePokemon(@RequestParam("id") int id, @RequestParam("teamId") int teamId, @RequestParam("name") String name, @RequestParam("level") int level) {
+	public Pokemon changePokemon(@RequestBody pokemonChange pc) {
 		
-		account = (Account) session.getAttribute("loggedIn");
+		account = new Account().accountById(pc.getUserId());
 		if(account!=null) {
-			Team team = account.getTeamById(teamId);
-			Pokemon pokemon = team.getPokemonById(id);
+			Team team = account.getTeamById(pc.getTeamId());
+			Pokemon pokemon = team.getPokemonById(pc.getPokemonId());
 				
-			pokemon.setLevel(level);
-			pokemon.setName(name);
+			pokemon.setLevel(pc.getLevel());
+			pokemon.setName(pc.getName());
 				
 			return pokemon;
 		}
@@ -287,9 +300,9 @@ public class AccountController {
 	@CrossOrigin(origins="*")
 	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/post-tweet")
 	@ResponseBody
-	public String postTweet(@RequestParam("message") String message) {
+	public String postTweet(@RequestBody tweetForm tf) {
 		Twitter twitter = TwitterFactory.getSingleton();
-		account = (Account) session.getAttribute("loggedIn");
+		account = new Account().accountById(tf.getUserId());
 		if(account!=null) {
 			//Check to see if the consumer is set
 			try {
@@ -300,21 +313,27 @@ public class AccountController {
 			
 			TwitterInfo twit = new TwitterInfo(account.getUser_id());
 			if(twit.getUserId()==0) {
-				try {
-					RequestToken rt = twitter.getOAuthRequestToken();
-					String url = rt.getAuthenticationURL();
-					session.setAttribute("twitter", twitter);
-					session.setAttribute("message", message);
-					session.setAttribute("requestToken", rt);
-					return url;
-				} catch (TwitterException e) {
-					return "Error";
-				}
+				return "{\"result\":\"no credentials saved\"}";
 			}
-			return twit.post(message, twitter);
+			return twit.post(tf.getMessage(), twitter);
 		}
 		else {
-			return null;
+			return "{\"result\":\"not logged in\"}";
+		}
+	}
+	
+	@CrossOrigin(origins="/**")
+	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/twitter-url")
+	@ResponseBody
+	public String twitterUrl() {
+		Twitter twitter=(Twitter) session.getAttribute("twitter");
+		RequestToken rt;
+		try {
+			rt = twitter.getOAuthRequestToken();
+			String url = rt.getAuthenticationURL();
+			return "{\"url\":\""+url+"\"}";
+		} catch (TwitterException e) {
+			return "Error";
 		}
 		
 	}
