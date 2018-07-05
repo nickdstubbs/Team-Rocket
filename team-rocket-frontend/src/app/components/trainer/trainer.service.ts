@@ -8,6 +8,13 @@ import * as Pokedex from '../../../../node_modules/pokedex-promise-v2';
 })
 export class TrainerService {
   teams: Team[] = [];
+  getVar() {
+    let temp = this.teams.length;
+    for(let i = 0; i < temp; i++) {
+      this.teams.pop();
+    }
+    return this.teams;
+  }
   getTeams(dbTeams: DbTeam[]) {
     var options = {
       protocol: 'https',

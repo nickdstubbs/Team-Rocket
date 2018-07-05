@@ -7,6 +7,13 @@ import { teamPokemon } from "./teamPokemon.interface";
 @Injectable()
 export class TeamsPageService {
     teams: Team[] = [];
+    getVar() {
+        let temp = this.teams.length;
+        for (let i = 0; i < temp; i++) {
+            this.teams.pop();
+        }
+        return this.teams;
+    }
     getTeams(dbTeams: DbTeam[]) {
         var options = {
             protocol: 'https',

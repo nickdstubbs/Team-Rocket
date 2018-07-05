@@ -59,7 +59,7 @@ export class TrainerComponent implements OnInit {
             this.dbTeams[index].poketeam.push({
               id: 0,
               name: "",
-              level: 99,
+              level: 0,
               sprites: {
                 front_default: "http://i.imgur.com/EgIXnFE.jpg"
               },
@@ -78,10 +78,12 @@ export class TrainerComponent implements OnInit {
             }
             this.dbTeams[index].poketeam[j] = temp;
           }
+
+          console.log(this.dbTeams);
           index++;
         }
       }
-      this.teams = this.serve.teams;
+      this.teams = this.serve.getVar();
       //console.log(this.dbTeams);
       this.serve.getTeams(this.dbTeams);
       if (this.teams.length < 1) {
