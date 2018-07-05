@@ -26,6 +26,10 @@ export class ExploreComponent implements OnInit {
     });
   }
 
+  refresh() {
+    location.reload();
+  }
+
   filter(name: string): boolean {
     return name.includes(this.str);
   }

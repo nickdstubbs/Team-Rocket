@@ -5,6 +5,7 @@ import { User } from '../../user';
 import { DbTeam } from '../../dbTeam';
 import { TeamsPageService } from '../teams/teams-page.service';
 import { teamPokemon } from '../teams/teamPokemon.interface';
+import { TrainerService } from './trainer.service';
 
 @Component({
   selector: 'app-trainer',
@@ -18,12 +19,14 @@ export class TrainerComponent implements OnInit {
   public id;
   public hasTeams = true;
 
-  constructor(private activeRoute: ActivatedRoute, private http: Http, private serve: TeamsPageService) { }
+  constructor(private activeRoute: ActivatedRoute, private http: Http, private serve: TrainerService) { }
 
   ngOnInit() {
+    this.teams = [];
+    this.dbTeams = [];
     this.user = {
       id: 0,
-      username: "Joey",
+      username: "Someone",
       email: "",
       teams: []
     }
@@ -79,7 +82,7 @@ export class TrainerComponent implements OnInit {
         }
       }
       this.teams = this.serve.teams;
-      console.log(this.dbTeams);
+      //console.log(this.dbTeams);
       this.serve.getTeams(this.dbTeams);
       if (this.teams.length < 1) {
         this.hasTeams = false;
