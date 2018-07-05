@@ -1,11 +1,27 @@
 <div>
   <H1>Trainer {{user.username | capFirst}}'s Profile</H1>
-  <div *ngFor="let team of teams">
-    <p>{{team.teamName}}</p>
+
+  <div *ngFor="let team of teams" class="cardContainer">
+    <div class="card">
+      <div>
+        <img class="cardPic" [src]="team.poketeam[0].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.poketeam[1].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.poketeam[2].sprites.front_default" alt="Card image cap">
+      </div>
+      <div>
+        <img class="cardPic" [src]="team.poketeam[3].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.poketeam[4].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.poketeam[5].sprites.front_default" alt="Card image cap">
+      </div>
+      <div class="card-body myCard">
+        <h5 class="card-title">{{team.nickname}}</h5>
+      </div>
+    </div>
   </div>
+
   <div *ngIf="!hasTeams">
     <img src="../../../assets/wobbuffet.png">
     <br>
-    <p>{{user.username | capFirst}} doesn't have any public teams yet, sorry!</p>
+    <p>{{user.username | capFirst}} doesn't have any public teams, sorry!</p>
   </div>
 </div>

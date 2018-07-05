@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Http } from '@angular/http';
 import { User } from '../../user';
+import { DbTeam } from '../../dbTeam';
+import { TeamsPageService } from '../teams/teams-page.service';
+import { teamPokemon } from '../teams/teamPokemon.interface';
 
 @Component({
   selector: 'app-trainer',
@@ -11,10 +14,11 @@ import { User } from '../../user';
 export class TrainerComponent implements OnInit {
   public user;
   public teams = [];
+  public dbTeams: DbTeam[] = [];
   public id;
   public hasTeams = true;
 
-  constructor(private activeRoute: ActivatedRoute, private http: Http) { }
+  constructor(private activeRoute: ActivatedRoute, private http: Http, private serve: TeamsPageService) { }
 
   ngOnInit() {
     this.user = {
@@ -38,11 +42,45 @@ export class TrainerComponent implements OnInit {
     })
     this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/accounts/teams').subscribe((res) => {
       let ts = res.json();
+      console.log(ts);
+      let index = 0;
       for (let t of ts) {
+        //console.log("hey");
         if (t.userId == this.id) {
-          this.teams.push(t);
+          this.dbTeams.push({
+            nickname: t.teamName,
+            description: "",
+            poketeam: []
+          });
+          for (let i = 0; i < 6; i++) {
+            this.dbTeams[index].poketeam.push({
+              id: 0,
+              name: "",
+              level: 99,
+              sprites: {
+                front_default: "http://i.imgur.com/EgIXnFE.jpg"
+              },
+              types: []
+            })
+          }
+          for (let j = 0; j < this.dbTeams[index].poketeam.length; j++) {
+            let temp: teamPokemon = {
+              id: t.pokemon[j].pokeId,
+              name: t.pokemon[j].name,
+              level: t.pokemon[j].level,
+              sprites: {
+                front_default: ""
+              },
+              types: []
+            }
+            this.dbTeams[index].poketeam[j] = temp;
+          }
+          index++;
         }
       }
+      this.teams = this.serve.teams;
+      console.log(this.dbTeams);
+      this.serve.getTeams(this.dbTeams);
       if (this.teams.length < 1) {
         this.hasTeams = false;
       }
