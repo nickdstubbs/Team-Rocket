@@ -29,7 +29,8 @@ export class TeamsComponent implements OnInit {
         this.dbTeams.push({
           nickname: t.teamName,
           description: "",
-          poketeam: []
+          poketeam: [],
+          id: 0
         })
         for (let i = 0; i < 6; i++) {
           this.dbTeams[index].poketeam.push({

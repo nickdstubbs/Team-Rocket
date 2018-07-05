@@ -27,7 +27,8 @@ export class TeamsPageService {
             this.teams.push({
                 nickname: "",
                 description: "",
-                poketeam: []
+                poketeam: [],
+                id: 0
             });
             for (let j = 0; j < 6; j++) {
                 this.teams[i].poketeam.push({
@@ -42,6 +43,7 @@ export class TeamsPageService {
         for (let i = 0; i < dbTeams.length; i++) {
             this.teams[i].nickname = dbTeams[i].nickname;
             this.teams[i].description = dbTeams[i].description;
+            this.teams[i].id = dbTeams[i].id;
             for (let j = 0; j < 6; j++) {
                 if (dbTeams[i].poketeam[j].id < 1) {
                     continue;

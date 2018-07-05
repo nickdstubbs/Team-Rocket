@@ -63,7 +63,8 @@ export const USER: User = {
                     },
                     types: [""]
                 },
-            ]
+            ],
+            id: 0
         },
         {
             nickname: "two",
@@ -123,7 +124,8 @@ export const USER: User = {
                     },
                     types: [""]
                 }
-            ]
+            ],
+            id: 0
         },
         {
             nickname: "three",
@@ -184,7 +186,8 @@ export const USER: User = {
                     },
                     types: [""]
                 }
-            ]
+            ],
+            id: 0
         }
     ]
 }

@@ -6,8 +6,9 @@
     </h2>
     <hr class="my-4">
     <div *ngFor="let user of users">
-      <p class="text" *ngIf="filter(user.username)">Trainer {{user.username | capFirst}}
+      <p class="text" *ngIf="filter(user.username)">
         <button class="btn myButton" routerLink="/trainer/{{user.user_id}}" >Visit</button>
+        Trainer {{user.username | capFirst}}
       </p>
     </div>
   </div>

@@ -36,7 +36,8 @@ export class ProfileComponent implements OnInit {
         this.user.teams.push({
           nickname: t.teamName,
           description: "",
-          poketeam: []
+          poketeam: [],
+          id: 0
         })
         for (let i = 0; i < 6; i++) {
           this.user.teams[index].poketeam.push({
