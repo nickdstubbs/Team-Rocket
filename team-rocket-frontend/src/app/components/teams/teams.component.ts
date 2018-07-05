@@ -8,6 +8,7 @@ import { PokeTeamService } from './pokeTeam.service';
 import { teamPokemon } from './teamPokemon.interface';
 import { USER } from '../../mock-user'
 import { TeamsPageService } from './teams-page.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-teams',
@@ -18,9 +19,12 @@ export class TeamsComponent implements OnInit {
   teams: Team[] = [];
 
   dbTeams: DbTeam[] = [];
-  constructor(private serve: TeamsPageService, private http: Http) {
+  constructor(private serve: TeamsPageService, private http: Http, private router: Router) {
   }
   ngOnInit() {
+    if(sessionStorage.getItem("loggedIn") != "true") {
+      this.router.navigate(['/home']);
+    }
     let id = sessionStorage.getItem("userId");
     this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/account/teams?userId='+id).subscribe((res) => {
     //console.log(res);  

@@ -7,6 +7,7 @@ import { PokeTeamService } from '../teams/pokeTeam.service';
 import { TeamsPageService } from '../teams/teams-page.service';
 import { Http } from '@angular/http';
 import { teamPokemon } from '../teams/teamPokemon.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -19,10 +20,12 @@ export class ProfileComponent implements OnInit {
   previewTeams: DbTeam[];
   preview: Team[];
 
-  constructor(private serve: TeamsPageService, private http: Http) { }
+  constructor(private serve: TeamsPageService, private http: Http, private router: Router) { }
 
   ngOnInit() {
-
+    if(sessionStorage.getItem("loggedIn") != "true") {
+      this.router.navigate(['/home']);
+    }
     this.user = {
       id: Number(sessionStorage.getItem("userId")),
       name: sessionStorage.getItem("username"),

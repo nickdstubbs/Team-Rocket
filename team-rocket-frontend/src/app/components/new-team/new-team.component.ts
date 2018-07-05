@@ -28,6 +28,9 @@ export class NewTeamComponent implements OnInit {
   constructor(private http: Http, private router: Router) { }
 
   ngOnInit() {
+    if(sessionStorage.getItem("loggedIn") != "true") {
+      this.router.navigate(['/home']);
+    }
     for (let i = 0; i < 6; i++) {
       this.myTeam.push(this.default);
     }
