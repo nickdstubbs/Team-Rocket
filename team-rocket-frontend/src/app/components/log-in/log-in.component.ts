@@ -31,7 +31,7 @@ export class LogInComponent implements OnInit {
       this.message = "Password must be alpha numeric, but can include underscores";
     } else {
       this.http.post('http://team-rocket.us-east-2.elasticbeanstalk.com/login?username=' + this.username + '&password=' + this.define, "{}").subscribe((res) => {
-        console.log(res);
+        //console.log(res);
         if (res.json().user_id == 0) {
           this.message = "invalid cridentials";
         } else {
