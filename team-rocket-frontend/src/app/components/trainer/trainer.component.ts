@@ -45,7 +45,7 @@ export class TrainerComponent implements OnInit {
     })
     this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/accounts/teams').subscribe((res) => {
       let ts = res.json();
-      console.log(ts);
+      //console.log(ts);
       let index = 0;
       for (let t of ts) {
         //console.log("hey");
@@ -67,6 +67,9 @@ export class TrainerComponent implements OnInit {
             })
           }
           for (let j = 0; j < this.dbTeams[index].poketeam.length; j++) {
+            if(j >= t.pokemon.length) {
+              break;
+            }
             let temp: teamPokemon = {
               id: t.pokemon[j].pokeId,
               name: t.pokemon[j].name,
@@ -79,7 +82,7 @@ export class TrainerComponent implements OnInit {
             this.dbTeams[index].poketeam[j] = temp;
           }
 
-          console.log(this.dbTeams);
+          //console.log(this.dbTeams);
           index++;
         }
       }
