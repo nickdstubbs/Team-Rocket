@@ -54,8 +54,8 @@ export class TrainerService {
             //console.log(response);
             let poke = {
               id: response.id,
-              name: response.name,
-              level: 0,
+              name: dbTeams[i].poketeam[j].name == "" ? response.name: dbTeams[i].poketeam[j].name,
+              level: dbTeams[i].poketeam[j].level,
               sprites: {
                 front_default: response.sprites.front_default
               },

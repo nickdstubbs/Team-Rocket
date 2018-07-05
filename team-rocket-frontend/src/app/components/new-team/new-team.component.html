@@ -3,7 +3,7 @@
   <div class="pokemonSelection">
     <div *ngFor="let member of myTeam" class="pokemonCard">
       <div class="card">
-        <div class="card-img-overlay .myOverlay" routerLink="/profile">
+        <div class="card-img-overlay .myOverlay" routerLink="/pokedex">
           <!--This is here so that text can't be highlighted-->
         </div>
         <div>
@@ -21,9 +21,6 @@
     <form class="form-group">
       <h2>Team Name</h2>
       <input class="form-control" type=text>
-      <br>
-      <h2>Description</h2>
-      <textarea class="form-control" rows="3" cols="100"></textarea>
       <br>
       <h2>Visibility</h2>
       <select class="form-control">

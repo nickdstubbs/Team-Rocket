@@ -1,3 +1,17 @@
 <div class="container">
   <h1>{{name | capFirst}}</h1>
+  <div class="pokemonTeam">
+    <div *ngFor="let member of team[0].poketeam" class="pokemonCard">
+      <div class="card">
+        <div class="card-img-overlay .myOverlay"></div>
+        <div>
+          <img class="pokemonPic" [src]="member.sprites.front_default" alt="Card image cap">
+        </div>
+        <div class="card-body myCard">
+          <h5 class="card-title">{{member.name}}</h5>
+          <p class="card-text">Level {{member.level}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

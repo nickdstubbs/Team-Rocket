@@ -12,12 +12,19 @@ import { TrainerService } from '../trainer/trainer.service';
   styleUrls: ['./team.component.css']
 })
 export class TeamComponent implements OnInit {
-  team: Team;
-  dbTeam: DbTeam;
+  team: Team[];
+  dbTeam: DbTeam[];
   name: String = "Team";
   constructor(private activeRoute: ActivatedRoute, private http: Http, private serve: TrainerService) { }
 
   ngOnInit() {
+    this.team = [{
+      nickname: "",
+      description: "",
+      poketeam: [],
+      id: 0
+    }];
+    this.dbTeam = [];
     this.activeRoute.paramMap.subscribe(paramMap => this.getTeam(paramMap));
   }
 
@@ -26,15 +33,14 @@ export class TeamComponent implements OnInit {
     this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/team?teamId=' + id).subscribe((res) => {
       console.log(res.json());
       let t = res.json();
-      this.dbTeam = {
+      this.dbTeam.push({
         nickname: t.teamName,
         description: "",
         poketeam: [],
         id: t.teamId
-      }
+      })
       for (let i = 0; i < 6; i++) {
-        console.log("i: " + i)
-        this.dbTeam.poketeam.push({
+        this.dbTeam[0].poketeam.push({
           id: 0,
           name: "",
           level: 0,
@@ -44,8 +50,7 @@ export class TeamComponent implements OnInit {
           types: []
         });
       }
-      for (let j = 0; j < this.dbTeam.poketeam.length; j++) {
-        console.log("j: " + j);
+      for (let j = 0; j < this.dbTeam[0].poketeam.length; j++) {
         if (j >= t.pokemon.length) {
           break;
         }
@@ -58,12 +63,12 @@ export class TeamComponent implements OnInit {
           },
           types: []
         }
-        this.dbTeam.poketeam[j] = temp;
+        this.dbTeam[0].poketeam[j] = temp;
       }
-      this.team = this.serve.getVar()[0];
-      this.serve.getTeams([this.dbTeam]);
+
+      this.team = this.serve.getVar();
+      this.serve.getTeams(this.dbTeam);
       this.name = t.teamName;
-      console.log("done");
     })
   }
 
