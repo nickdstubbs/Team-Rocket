@@ -78,7 +78,7 @@ export class PokedexComponent implements OnInit {
     this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/accounts/teams').subscribe((res) => {
       let ts = res.json();
       for (let t of ts) {
-        if (t.userId == this.id && t.pokemon.length<6) {
+        if (t.userId == this.id && t.pokemon.length < 6) {
           this.curUser.teams.push(t);
         }
       }
@@ -86,7 +86,7 @@ export class PokedexComponent implements OnInit {
         this.hasTeams = false;
       }
     });
-    
+
   }
   public getResults() {
     this.pokemons = [];
@@ -160,7 +160,6 @@ export class PokedexComponent implements OnInit {
       this.pokemons = [];
       this.dex = new Pokedex(this.options);
       this.dex.getTypeByName(this.tempType.toLowerCase(), (response) => {
-        let index = 0;
         for (let i = this.offset; i < 20; i++) {
           this.dex.getPokemonByName(response.pokemon[i].pokemon.name, (response) => {
             this.pokemons.push(response as Pokemon);
@@ -175,7 +174,6 @@ export class PokedexComponent implements OnInit {
     this.pokemons = [];
     this.dex = new Pokedex(this.options);
     this.dex.getTypeByName(this.tempType.toLowerCase(), (response) => {
-      let index = 0;
       for (let i = this.offset; i < this.offset + 20; i++) {
         this.dex.getPokemonByName(response.pokemon[i].pokemon.name, (response) => {
           this.pokemons.push(response as Pokemon);
@@ -255,7 +253,6 @@ export class PokedexComponent implements OnInit {
       }
     }
     //make call to backend to update the team
-    //url = teamrocket.us-east-2.elasticbeanstalk.com test change
     let obj = {
       pokedexId: this.addedPokmeon.id,
       name: this.addedPokmeon.name,
@@ -263,9 +260,15 @@ export class PokedexComponent implements OnInit {
       teamId: this.curTeam.id,
       position: this.curTeam.poketeam.length
     };
-    this.http.put("team-rocket.us-east-2.elasticbeanstalk.com/account/team/pokemon/add", obj).subscribe();
+    const headerDict = {
+     'Content-Type': 'application/json',
+     'Accept': 'application/json',
+     'Access-Control-Allow-Headers': 'Content-Type',
+   }
+   
+   const requestOptions = {                                                                                                                                                                                
+     headers: new Headers(headerDict),
+   };
+    this.http.post("team-rocket.us-east-2.elasticbeanstalk.com/account/team/pokemon/add", requestOptions, JSON.stringify(obj)).subscribe();
   }
-
-
 }
-
