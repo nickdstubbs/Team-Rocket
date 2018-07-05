@@ -17,12 +17,13 @@ import { TeamsPageService } from './teams-page.service';
 export class TeamsComponent implements OnInit {
   teams: Team[] = [];
 
-  dbTeams: DbTeam[] = USER.teams;
+  dbTeams: DbTeam[] = [];
   constructor(private serve: TeamsPageService, private http: Http) {
   }
   ngOnInit() {
-    this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/account/teams').subscribe((res) => {
-    console.log(res);  
+    let id = sessionStorage.getItem("userId");
+    this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/account/teams?userId='+id).subscribe((res) => {
+    //console.log(res);  
     let ts = res.json();
       let index = 0;
       for (let t of ts) {

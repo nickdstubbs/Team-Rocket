@@ -30,7 +30,11 @@ export class LogInComponent implements OnInit {
     } else if (/\W/.test(this.define)) {
       this.message = "Password must be alpha numeric, but can include underscores";
     } else {
-      this.http.post('http://team-rocket.us-east-2.elasticbeanstalk.com/login?username=' + this.username + '&password=' + this.define, "{}").subscribe((res) => {
+      let cred = {
+        username: this.username,
+        password: this.define
+      }
+      this.http.post('http://team-rocket.us-east-2.elasticbeanstalk.com/login', cred).subscribe((res) => {
         //console.log(res);
         if (res.json().user_id != 0) {
           sessionStorage.setItem("userId", res.json().user_id);

@@ -36,11 +36,19 @@ export class SignUpComponent implements OnInit {
     } else if (! /\w+@\w+\.\w+/.test(this.email)) {
       this.message = "Invalid email"
     } else {
-      this.http.post('http://team-rocket.us-east-2.elasticbeanstalk.com/signup?username=' + this.username + '&email=' + this.email + '&password=' + this.password, "").subscribe((res) => {
-        if (res.json().user_id == 0) {
-          this.message = "account taken";
-        } else {
+      let cred = {
+        username: this.username,
+        email: this.email,
+        password: this.password
+      }
+      this.http.post('http://team-rocket.us-east-2.elasticbeanstalk.com/signup', cred).subscribe((res) => {
+        if (res.json().user_id != 0) {
+          sessionStorage.setItem("userId", res.json().user_id);
+          sessionStorage.setItem("username", res.json().username);
+          sessionStorage.setItem("userEmail", res.json().email);
           this.login();
+        } else {
+          this.message = "account taken";
         }
       });
     }

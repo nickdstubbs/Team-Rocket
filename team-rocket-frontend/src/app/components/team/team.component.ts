@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Team } from '../../team';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'app-team',
@@ -6,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./team.component.css']
 })
 export class TeamComponent implements OnInit {
-
-  constructor() { }
+  team: Team;
+  constructor(private http: Http) { }
 
   ngOnInit() {
+    //this.http.get()
+
   }
 
 }
