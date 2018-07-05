@@ -31,7 +31,7 @@ export class TeamComponent implements OnInit {
   getTeam(paramMap: ParamMap) {
     let id = paramMap.get('teamId');
     this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/team?teamId=' + id).subscribe((res) => {
-      console.log(res.json());
+      //console.log(res.json());
       let t = res.json();
       this.dbTeam.push({
         nickname: t.teamName,

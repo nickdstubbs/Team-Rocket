@@ -18,23 +18,23 @@
   </div>
 
   <div class="teamMeta">
-    <form class="form-group">
-      <h2>Team Name</h2>
-      <input class="form-control" type=text>
-      <br>
-      <h2>Visibility</h2>
-      <select class="form-control">
-          <option value="public">Public</option>
-          <option value="private">Private</option>
-      </select>
-      <br>
-      <input type=text [value]="myTeam[0].name" hidden>
-      <input type=text [value]="myTeam[1].name" hidden>
-      <input type=text [value]="myTeam[2].name" hidden>
-      <input type=text [value]="myTeam[3].name" hidden>
-      <input type=text [value]="myTeam[4].name" hidden>
-      <input type=text [value]="myTeam[5].name" hidden>
-      <button class="btn myButton">Save Team</button>
-    </form>
+    <h2>Team Name</h2>
+    <input [value]="teamname" (input)="teamname = $event.target.value" name="teamname" class="form-control" type=text>
+    <br>
+    <h2>Visibility</h2>
+    <select [value]="visibility" (input)="visibility = $event.target.value" name="visibility" class="form-control">
+      <option value="Public">Public</option>
+      <option value="Private">Private</option>
+    </select>
+    <br>
+    <input type=text [value]="myTeam[0].name" hidden>
+    <input type=text [value]="myTeam[1].name" hidden>
+    <input type=text [value]="myTeam[2].name" hidden>
+    <input type=text [value]="myTeam[3].name" hidden>
+    <input type=text [value]="myTeam[4].name" hidden>
+    <input type=text [value]="myTeam[5].name" hidden>
+    <p>{{message}}</p>
+    <button class="btn myButton" (click)="createTeam()">Save Team</button>
+
   </div>
 </div>
