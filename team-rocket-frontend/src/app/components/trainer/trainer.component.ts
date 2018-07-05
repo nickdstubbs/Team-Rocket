@@ -54,7 +54,7 @@ export class TrainerComponent implements OnInit {
             nickname: t.teamName,
             description: "",
             poketeam: [],
-            id: 0
+            id: t.teamId
           });
           for (let i = 0; i < 6; i++) {
             this.dbTeams[index].poketeam.push({
