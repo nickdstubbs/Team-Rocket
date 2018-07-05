@@ -22,7 +22,7 @@ export class ExploreComponent implements OnInit {
     //console.log("getting users");
     this.exploreService.getUsers().subscribe((res) => {
       this.users=res
-      console.log(res);
+      //console.log(res);
     });
   }
 

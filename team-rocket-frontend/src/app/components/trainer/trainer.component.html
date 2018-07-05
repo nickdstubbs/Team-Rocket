@@ -1,3 +1,9 @@
-<p>
-  trainer works!
-</p>
+<div>
+  <H1>Trainer {{user.username}}'s Profile</H1>
+  <div *ngFor="let team of teams">
+    <p>{{team.teamName}}</p>
+  </div>
+  <div *ngIf="!hasTeams">
+    <p>This trainer hasn't created any teams yet.</p>
+  </div>
+</div>

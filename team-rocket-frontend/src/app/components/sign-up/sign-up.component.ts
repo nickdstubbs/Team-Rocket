@@ -37,7 +37,7 @@ export class SignUpComponent implements OnInit {
       this.message = "Invalid email"
     } else {
       this.http.post('http://team-rocket.us-east-2.elasticbeanstalk.com/signup?username=' + this.username + '&email=' + this.email + '&password=' + this.password, "").subscribe((res) => {
-        if (res.json().id == 0) {
+        if (res.json().user_id == 0) {
           this.message = "account taken";
         } else {
           this.login();
