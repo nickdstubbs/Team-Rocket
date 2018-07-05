@@ -24,6 +24,9 @@ export class AppComponent implements OnInit {
   logOut() {
     this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/logout').subscribe;
     sessionStorage.setItem("loggedIn", "false");
+    sessionStorage.setItem("userId", "0");
+    sessionStorage.setItem("username", "");
+    sessionStorage.setItem("userEmail", "");
     this.router.navigate(['/home']);
   }
 
