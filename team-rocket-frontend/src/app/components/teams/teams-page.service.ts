@@ -82,7 +82,8 @@ export class TeamsPageService {
                     level: 0,
                     sprites: { front_default: "http://i.imgur.com/EgIXnFE.jpg" },
                     types: [""]
-                }]
+                }],
+                id: 1
             }
     );
     }
