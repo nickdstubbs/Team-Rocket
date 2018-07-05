@@ -1,9 +1,11 @@
 <div>
-  <H1>Trainer {{user.username}}'s Profile</H1>
+  <H1>Trainer {{user.username | capFirst}}'s Profile</H1>
   <div *ngFor="let team of teams">
     <p>{{team.teamName}}</p>
   </div>
   <div *ngIf="!hasTeams">
-    <p>This trainer hasn't created any teams yet.</p>
+    <img src="../../../assets/wobbuffet.png">
+    <br>
+    <p>{{user.username | capFirst}} hasn't created any teams yet, sorry!</p>
   </div>
 </div>
