@@ -22,21 +22,19 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.user = USER;
 
-    this.preview = this.serve.teams;
-    if (this.serve.teams.length < 1) {
-      this.serve.getTeams(this.user.teams);
-    }
+    this.preview = this.serve.getVar();
+    this.serve.getTeams(this.user.teams);
 
-    if(this.preview.length > 2) {
+    if (this.preview.length > 2) {
       this.max = 2;
     } else {
       this.max = this.preview.length;
     }
-    
+
   }
 
   hasNext(num) {
-    if (num < this.max+1) {
+    if (num < this.max + 1) {
       return true;
     } else {
       return false;

@@ -21,10 +21,8 @@ export class TeamsComponent implements OnInit {
   constructor(private serve: TeamsPageService) {
   }
   ngOnInit() {
-    this.teams = this.serve.teams;
-    if (this.serve.teams.length < 1) {
-      this.serve.getTeams(this.dbTeams);
-    }
+    this.teams = this.serve.getVar();
+    this.serve.getTeams(this.dbTeams);
   }
 
 }
