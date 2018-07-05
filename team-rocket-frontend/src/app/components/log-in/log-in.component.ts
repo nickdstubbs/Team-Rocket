@@ -15,7 +15,7 @@ export class LogInComponent implements OnInit {
   login() {
     sessionStorage.setItem("loggedIn", "true");
     this.router.navigate(['/profile']);
-    location.reload();
+    //location.reload();
   }
   constructor(private http: Http, private router: Router) { }
 
@@ -33,6 +33,9 @@ export class LogInComponent implements OnInit {
       this.http.post('http://team-rocket.us-east-2.elasticbeanstalk.com/login?username=' + this.username + '&password=' + this.define, "{}").subscribe((res) => {
         //console.log(res);
         if (res.json().user_id != 0) {
+          sessionStorage.setItem("userId", res.json().user_id);
+          sessionStorage.setItem("username", res.json().username);
+          sessionStorage.setItem("userEmail", res.json().email);
           this.login();
         } else {
           this.message = "invalid cridentials";

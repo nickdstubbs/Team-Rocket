@@ -26,10 +26,10 @@
           <a class="nav-link" routerLink="/explore">Explore</a>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
+      <div class="form-inline my-2 my-lg-0">
         <button *ngIf="!loggedIn" class="btn myButton my-2 my-sm-0" routerLink="/log-in">Log In</button>
         <button *ngIf="loggedIn" (click)="logOut()" class="btn myButton my-2 my-sm-0">Log Out</button>
-      </form>
+      </div>
     </div>
   </nav>
   <br>

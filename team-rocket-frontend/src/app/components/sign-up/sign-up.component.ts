@@ -16,7 +16,7 @@ export class SignUpComponent implements OnInit {
   login() {
     sessionStorage.setItem("loggedIn", "true");
     this.router.navigate(['/profile']);
-    location.reload();
+    //location.reload();
   }
 
   constructor(private http: Http, private router: Router) { }
