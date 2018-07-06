@@ -16,6 +16,11 @@
    
 }
 
+#shareBtn{
+    position: fixed;
+    bottom: 0;
+}
+
 button.myButton {
     -webkit-transition-duration: 0.5s; /* Safari */
     transition-duration: 0.5s;
