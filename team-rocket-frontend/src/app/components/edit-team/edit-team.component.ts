@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Team } from '../../team';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Http } from '@angular/http';
-import { TeamComponent } from '../../team/team.component';
 
 @Component({
   selector: 'app-edit-team',
@@ -46,7 +45,7 @@ export class EditTeamComponent implements OnInit {
   }
 
   public setName(event: any) {
-    this.team.nickname = event.target.value;
+    this.team.teamName = event.target.value;
   }
 
   public setVis(event: any) {
@@ -67,7 +66,7 @@ export class EditTeamComponent implements OnInit {
     let obj = {
       userId: this.userId,
       teamId: this.teamId,
-      teamName: this.team.nickname,
+      teamName: this.team.teamName,
       visibility: this.visibility
     }
     this.http.put("team-rocket.us-east-2.elasticbeanstalk.com/account/team/change-info", obj).subscribe();

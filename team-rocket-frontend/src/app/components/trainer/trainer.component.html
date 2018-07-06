@@ -4,17 +4,17 @@
   <div *ngFor="let team of teams" class="cardContainer">
     <div class="card">
       <div>
-        <img class="cardPic" [src]="team.poketeam[0].sprites.front_default" alt="Card image cap">
-        <img class="cardPic" [src]="team.poketeam[1].sprites.front_default" alt="Card image cap">
-        <img class="cardPic" [src]="team.poketeam[2].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.pokemon[0].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.pokemon[1].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.pokemon[2].sprites.front_default" alt="Card image cap">
       </div>
       <div>
-        <img class="cardPic" [src]="team.poketeam[3].sprites.front_default" alt="Card image cap">
-        <img class="cardPic" [src]="team.poketeam[4].sprites.front_default" alt="Card image cap">
-        <img class="cardPic" [src]="team.poketeam[5].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.pokemon[3].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.pokemon[4].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.pokemon[5].sprites.front_default" alt="Card image cap">
       </div>
       <div class="card-body myCard">
-        <h5 class="card-title">{{team.nickname}}</h5>
+        <h5 class="card-title">{{team.teamName}}</h5>
         <button class="btn myButton" routerLink="/team/{{team.id}}">View</button>
       </div>
     </div>

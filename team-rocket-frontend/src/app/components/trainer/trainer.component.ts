@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { User } from '../../user';
-import { DbTeam } from '../../dbTeam';
+import { Team } from '../../Team';
 import { TeamsPageService } from '../teams/teams-page.service';
 import { teamPokemon } from '../teams/teamPokemon.interface';
 import { TrainerService } from './trainer.service';
@@ -15,7 +15,7 @@ import { TrainerService } from './trainer.service';
 export class TrainerComponent implements OnInit {
   public user;
   public teams = [];
-  public dbTeams: DbTeam[] = [];
+  public dbTeams: Team[] = [];
   public id;
   public hasTeams = true;
 
@@ -56,13 +56,13 @@ export class TrainerComponent implements OnInit {
         //console.log("hey");
         if (t.userId == this.id) {
           this.dbTeams.push({
-            nickname: t.teamName,
+            teamName: t.teamName,
             description: "",
-            poketeam: [],
-            id: t.teamId
+            pokemon: [],
+            teamId: t.teamId
           });
           for (let i = 0; i < 6; i++) {
-            this.dbTeams[index].poketeam.push({
+            this.dbTeams[index].pokemon.push({
               id: 0,
               name: "",
               level: 0,
@@ -72,7 +72,7 @@ export class TrainerComponent implements OnInit {
               types: []
             })
           }
-          for (let j = 0; j < this.dbTeams[index].poketeam.length; j++) {
+          for (let j = 0; j < this.dbTeams[index].pokemon.length; j++) {
             if(j >= t.pokemon.length) {
               break;
             }
@@ -85,7 +85,7 @@ export class TrainerComponent implements OnInit {
               },
               types: []
             }
-            this.dbTeams[index].poketeam[j] = temp;
+            this.dbTeams[index].pokemon[j] = temp;
           }
 
           //console.log(this.dbTeams);

@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { Team } from "../../team";
-import { DbTeam } from "../../dbTeam";
 import * as Pokedex from '../../../../node_modules/pokedex-promise-v2';
 import { teamPokemon } from "./teamPokemon.interface";
 
@@ -14,24 +13,24 @@ export class TeamsPageService {
         }
         return this.teams;
     }
-    getTeams(dbTeams: DbTeam[]) {
+    getTeams(dbTeams: Team[]) {
         var options = {
             protocol: 'https',
             timeout: 60 * 1000
         }
         var P = new Pokedex(options);
         let setPoke = (i: number, p: number, member) => {
-            this.teams[i].poketeam[p - 1] = member;
+            this.teams[i].pokemon[p - 1] = member;
         }
         for (let i = 0; i < dbTeams.length; i++) {
             this.teams.push({
-                nickname: "",
+                teamName: "",
                 description: "",
-                poketeam: [],
-                id: 0
+                pokemon: [],
+                teamId: 0
             });
             for (let j = 0; j < 6; j++) {
-                this.teams[i].poketeam.push({
+                this.teams[i].pokemon.push({
                     id: 0,
                     name: "",
                     level: 0,
@@ -42,14 +41,14 @@ export class TeamsPageService {
             }
         }
         for (let i = 0; i < dbTeams.length; i++) {
-            this.teams[i].nickname = dbTeams[i].nickname;
+            this.teams[i].teamName = dbTeams[i].teamName;
             this.teams[i].description = dbTeams[i].description;
-            this.teams[i].id = dbTeams[i].id;
+            this.teams[i].teamId = dbTeams[i].teamId;
             for (let j = 0; j < 6; j++) {
-                if (dbTeams[i].poketeam[j].id < 1) {
+                if (dbTeams[i].pokemon[j].id < 1) {
                     continue;
                 }
-                P.getPokemonByName(dbTeams[i].poketeam[j].id) // with Promise
+                P.getPokemonByName(dbTeams[i].pokemon[j].id) // with Promise
                     .then(function (response) {
                         //console.log(response);
                         let poke = {

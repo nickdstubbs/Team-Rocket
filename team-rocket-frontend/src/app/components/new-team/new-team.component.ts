@@ -56,7 +56,7 @@ export class NewTeamComponent implements OnInit {
           userId: id,
           teamName: this.teamname,
           visibility: this.visibility
-        }
+        };
         this.http.post('http://team-rocket.us-east-2.elasticbeanstalk.com/account/teams/add', obj).subscribe();
         this.router.navigate(['/profile']);
         window.location.reload();

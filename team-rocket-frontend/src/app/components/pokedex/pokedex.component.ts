@@ -7,7 +7,6 @@ import { PokemonService } from '../pokemon/pokemon.service';
 import * as Pokedex from '../../../../node_modules/pokedex-promise-v2';
 import { User } from '../../user';
 import { Team } from '../../team';
-import { USER } from '../../mock-user';
 @Component({
   selector: 'pok-pokedex',
   templateUrl: './pokedex.component.html'
@@ -40,7 +39,7 @@ export class PokedexComponent implements OnInit {
     offset: 0
   };
 
-  constructor(private http: Http, private activeRoute: ActivatedRoute) {
+  constructor(private http: Http) {
     this.pokemons = [];
     this.offset = 0;
     this.limit = 20;
@@ -49,7 +48,19 @@ export class PokedexComponent implements OnInit {
     this.tempName = "";
     this.tempRegion = "All";
     this.tempType = "All";
-    //this.curUser = USER;
+    this.hasTeams = true;
+    this.curTeam = {
+      teamName: "",
+      description: "",
+      pokemon: [],
+      teamId: 0
+    }
+    this.curUser = {
+      id: Number(sessionStorage.getItem("userId")),
+      name: sessionStorage.getItem("username"),
+      email: sessionStorage.getItem("userEmail"),
+      teams: []
+    }
     this.regions = [["All", 0, 802], ["Kanto", 0, 151], ["Johto", 151, 251], ["Hoenn", 251, 386],
     ["Sinnoh", 386, 493], ["Unova", 493, 649], ["Kalos", 649, 721], ["Alola", 721, 802]];
     this.types = ["All", "Normal", "Fire", "Fighting", "Water", "Flying", "Grass", "Poison", "Electric", "Ground", "Psychic", "Rock",
@@ -57,7 +68,7 @@ export class PokedexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activeRoute.paramMap.subscribe(paramMap => this.getUser(paramMap));
+    this.getUser();
     this.dex = new Pokedex(this.options);
     this.dex.getPokemonsList(this.interval, (response) => {
       this.results = response as Results;
@@ -65,25 +76,20 @@ export class PokedexComponent implements OnInit {
     })
   }
 
-  getUser(paramMap: ParamMap) {
-    this.id = paramMap.get('trainerId');
-    this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/accounts').subscribe((res) => {
-      let users = res.json();
-      for (let u of users) {
-        if (u.user_id == this.id) {
-          this.curUser = u;
-        }
-      }
-    });
+  getUser() {
+
     this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/accounts/teams').subscribe((res) => {
       let ts = res.json();
       for (let t of ts) {
-        if (t.userId == this.id && t.pokemon.length < 6) {
+        if (t.userId == this.curUser.id && t.pokemon.length < 6) {
+          console.log("found team")
           this.curUser.teams.push(t);
         }
       }
+      console.log(this.curUser);
       if (this.curUser.teams.length < 1) {
         this.hasTeams = false;
+        this.curTeam = this.curUser.teams[0];
       }
     });
 
@@ -233,8 +239,14 @@ export class PokedexComponent implements OnInit {
   }
 
   public setTeam(event: any) {
-    this.curTeam = event.target.value;
-    if (this.curTeam.poketeam.length >= 6) this.teamFull = true;
+    console.log(this.curTeam);
+    for (let t of this.curUser.teams) {
+      if (t.teamName == event.target.value) {
+        this.curTeam = t;
+      }
+    }
+    console.log(this.curTeam);
+    if (this.curTeam.pokemon.length >= 6) this.teamFull = true;
     else this.teamFull = false;
   }
 
@@ -245,30 +257,32 @@ export class PokedexComponent implements OnInit {
   }
 
   public addPokemon(pokemon: Pokemon) {
-    if (this.curTeam.poketeam.length < 6) {
+    if (this.curTeam.pokemon.length < 6) {
       for (let team of this.curUser.teams) {
-        if (team.nickname == this.curTeam.nickname) {
-          team.poketeam.push(this.addedPokmeon);
+        if (team.teamName == this.curTeam.teamName) {
+          team.pokemon.push(this.addedPokmeon);
         }
       }
     }
     //make call to backend to update the team
     let obj = {
+      userId: this.curUser.id,
       pokedexId: this.addedPokmeon.id,
       name: this.addedPokmeon.name,
       level: this.addedPokmeon.level,
-      teamId: this.curTeam.id,
-      position: this.curTeam.poketeam.length
+      teamId: this.curTeam.teamId,
+      position: this.curTeam.pokemon.length
     };
     const headerDict = {
-     'Content-Type': 'application/json',
-     'Accept': 'application/json',
-     'Access-Control-Allow-Headers': 'Content-Type',
-   }
-   
-   const requestOptions = {                                                                                                                                                                                
-     headers: new Headers(headerDict),
-   };
-    this.http.post("team-rocket.us-east-2.elasticbeanstalk.com/account/team/pokemon/add", requestOptions, JSON.stringify(obj)).subscribe();
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    }
+
+    const requestOptions = {
+      headers: new Headers(headerDict),
+    };
+    console.log(obj);
+    this.http.post("http://team-rocket.us-east-2.elasticbeanstalk.com/account/team/pokemon/add", obj).subscribe();
   }
 }

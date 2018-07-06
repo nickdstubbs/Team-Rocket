@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Team } from '../../team';
-import { DbTeam } from '../../dbTeam';
 import { Pokemon } from '../pokemon/pokemon.interface';
 import { PokemonService } from '../pokemon/pokemon.service';
 import { Http } from '@angular/http';
 import { PokeTeamService } from './pokeTeam.service';
 import { teamPokemon } from './teamPokemon.interface';
-import { USER } from '../../mock-user'
 import { TeamsPageService } from './teams-page.service';
 import { Router } from '@angular/router';
 
@@ -18,7 +16,7 @@ import { Router } from '@angular/router';
 export class TeamsComponent implements OnInit {
   teams: Team[] = [];
 
-  dbTeams: DbTeam[] = [];
+  dbTeams: Team[] = [];
   constructor(private serve: TeamsPageService, private http: Http, private router: Router) {
   }
   ngOnInit() {
@@ -32,13 +30,13 @@ export class TeamsComponent implements OnInit {
       let index = 0;
       for (let t of ts) {
         this.dbTeams.push({
-          nickname: t.teamName,
+          teamName: t.teamName,
           description: "",
-          poketeam: [],
-          id: t.teamId
+          pokemon: [],
+          teamId: t.teamId
         })
         for (let i = 0; i < 6; i++) {
-          this.dbTeams[index].poketeam.push({
+          this.dbTeams[index].pokemon.push({
             id: 0,
             name: "",
             level: 0,
@@ -48,7 +46,7 @@ export class TeamsComponent implements OnInit {
             types: []
           })
         }
-        for (let j = 0; j < this.dbTeams[index].poketeam.length; j++) {
+        for (let j = 0; j < this.dbTeams[index].pokemon.length; j++) {
           if (j >= t.pokemon.length) {
             break;
           }
@@ -61,7 +59,7 @@ export class TeamsComponent implements OnInit {
             },
             types: []
           }
-          this.dbTeams[index].poketeam[j] = temp;
+          this.dbTeams[index].pokemon[j] = temp;
         }
         index++;
       }
