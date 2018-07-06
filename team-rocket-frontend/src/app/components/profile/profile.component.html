@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Hello, {{user.name}}</h1>
+  <h1>Hello, {{user.name | capFirst}}</h1>
 
   <div>
     <div class="cardContainer" *ngIf="hasNext(1)">

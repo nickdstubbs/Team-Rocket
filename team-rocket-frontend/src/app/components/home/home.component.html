@@ -5,4 +5,4 @@
 (mouseover) = 'toggle()' (mouseleave)='toggle()'>
 <h2>{{phrase}}</h2>
 
-<button class="btn myButton" routerLink="/sign-up">Join Us!</button>
+<button *ngIf="!loggedIn" class="btn myButton" routerLink="/sign-up">Join Us!</button>

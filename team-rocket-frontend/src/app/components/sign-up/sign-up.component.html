@@ -2,25 +2,25 @@
   <div class="jumbotron mySignup">
     <h2>Sign Up</h2>
     <hr class="my-4">
-    <form class="form-group">
-      <label>Username</label>
-      <input class="form-control" type="text">
-      <br>
-      <label>Email</label>
-      <input class="form-control" type="email">
-      <br>
-      <label>Password</label>
-      <input class="form-control" type="password">
-      <br>
-      <label>Confirm Password</label>
-      <input class="form-control" type="password">
-      <br>
-      <button class="btn myButton" (click)="login()" routerLink="/profile">Sign Up</button>
-    </form>
+    <label>Username</label>
+    <input [value]="username" (input)="username = $event.target.value" name="username" class="form-control" type="text">
+    <br>
+    <label>Email</label>
+    <input [value]="email" (input)="email = $event.target.value" name="email" class="form-control" type="email">
+    <br>
+    <label>Password</label>
+    <input [value]="password" (input)="password = $event.target.value" name="password" class="form-control" type="password">
+    <br>
+    <label>Confirm Password</label>
+    <input [value]="passconf" (input)="passconf = $event.target.value" name="passconf" class="form-control" type="password">
+    <br>
+    <p>{{message}}</p>
+    <button class="btn myButton" (click)="attemptSignup()">Sign Up</button>
+
     <hr class="my-4">
     <p>
       Already have an account?
-      <button class="btn myButton"  routerLink="/log-in">Log In</button>
+      <button class="btn myButton" routerLink="/log-in">Log In</button>
     </p>
   </div>
 </div>

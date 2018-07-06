@@ -7,178 +7,63 @@ import { teamPokemon } from "./teamPokemon.interface";
 @Injectable()
 export class TeamsPageService {
     teams: Team[] = [];
+    getVar() {
+        let temp = this.teams.length;
+        for (let i = 0; i < temp; i++) {
+            this.teams.pop();
+        }
+        return this.teams;
+    }
     getTeams(dbTeams: DbTeam[]) {
-        //var Pokedex = require('pokedex-promise-v2');
         var options = {
             protocol: 'https',
             timeout: 60 * 1000
         }
         var P = new Pokedex(options);
         let setPoke = (i: number, p: number, member) => {
-            switch (p) {
-                case 1:
-                    this.teams[i].poketeam[0] = member
-                    break;
-                case 2:
-                    this.teams[i].poketeam[1] = member
-                    break;
-                case 3:
-                    this.teams[i].poketeam[2] = member
-                    break;
-                case 4:
-                    this.teams[i].poketeam[3] = member
-                    break;
-                case 5:
-                    this.teams[i].poketeam[4] = member
-                    break;
-                case 6:
-                    this.teams[i].poketeam[5] = member
-                    break;
-                default:
-            }
+            this.teams[i].poketeam[p - 1] = member;
         }
         for (let i = 0; i < dbTeams.length; i++) {
             this.teams.push({
                 nickname: "",
                 description: "",
-                poketeam:[{
-                    id: 1,
+                poketeam: [],
+                id: 0
+            });
+            for (let j = 0; j < 6; j++) {
+                this.teams[i].poketeam.push({
+                    id: 0,
                     name: "",
                     level: 0,
                     sprites: { front_default: "http://i.imgur.com/EgIXnFE.jpg" },
                     types: [""]
-                },
-                {
-                    id: 1,
-                    name: "",
-                    level: 0,
-                    sprites: { front_default: "http://i.imgur.com/EgIXnFE.jpg" },
-                    types: [""]
-                },
-                {
-                    id: 1,
-                    name: "",
-                    level: 0,
-                    sprites: { front_default: "http://i.imgur.com/EgIXnFE.jpg" },
-                    types: [""]
-                },
-                {
-                    id: 1,
-                    name: "",
-                    level: 0,
-                    sprites: { front_default: "http://i.imgur.com/EgIXnFE.jpg" },
-                    types: [""]
-                },
-                {
-                    id: 1,
-                    name: "",
-                    level: 0,
-                    sprites: { front_default: "http://i.imgur.com/EgIXnFE.jpg" },
-                    types: [""]
-                },
-                {
-                    id: 1,
-                    name: "",
-                    level: 0,
-                    sprites: { front_default: "http://i.imgur.com/EgIXnFE.jpg" },
-                    types: [""]
-                }],
-                id: 1
+                })
+
             }
-    );
+        }
+        for (let i = 0; i < dbTeams.length; i++) {
+            this.teams[i].nickname = dbTeams[i].nickname;
+            this.teams[i].description = dbTeams[i].description;
+            this.teams[i].id = dbTeams[i].id;
+            for (let j = 0; j < 6; j++) {
+                if (dbTeams[i].poketeam[j].id < 1) {
+                    continue;
+                }
+                P.getPokemonByName(dbTeams[i].poketeam[j].id) // with Promise
+                    .then(function (response) {
+                        //console.log(response);
+                        let poke = {
+                            id: response.id,
+                            name: response.name,
+                            level: 0,
+                            sprites: {
+                                front_default: response.sprites.front_default
+                            },
+                            types: response.types
+                        }
+                        setPoke(i, j + 1, poke);
+                    });
+            }
+        }
     }
-    for(let i = 0; i <dbTeams.length; i++) {
-    this.teams[i].nickname = dbTeams[i].nickname;
-    this.teams[i].description = dbTeams[i].description;
-
-    P.getPokemonByName(dbTeams[i].poketeam[0].id) // with Promise
-        .then(function (response) {
-            //console.log(response);
-            let poke = {
-                id: response.id,
-                name: response.name,
-                level: 0,
-                sprites: {
-                    front_default: response.sprites.front_default
-                },
-                types: response.types
-            }
-            setPoke(i, 1, poke);
-        });
-    P.getPokemonByName(dbTeams[i].poketeam[1].id) // with Promise
-        .then(function (response) {
-            //console.log(response);
-            let poke = {
-                id: response.id,
-                name: response.name,
-                level: 0,
-                sprites: {
-                    front_default: response.sprites.front_default
-                },
-                types: response.types
-            }
-            setPoke(i, 2, poke);
-        });
-    P.getPokemonByName(dbTeams[i].poketeam[2].id) // with Promise
-        .then(function (response) {
-            //console.log(response);
-            let poke = {
-                id: response.id,
-                name: response.name,
-                level: 0,
-                sprites: {
-                    front_default: response.sprites.front_default
-                },
-                types: response.types
-            }
-            setPoke(i, 3, poke);
-        });
-    P.getPokemonByName(dbTeams[i].poketeam[3].id) // with Promise
-        .then(function (response) {
-            //console.log(response);
-            let poke = {
-                id: response.id,
-                name: response.name,
-                level: 0,
-                sprites: {
-                    front_default: response.sprites.front_default
-                },
-                types: response.types
-            }
-            setPoke(i, 4, poke);
-        });
-    P.getPokemonByName(dbTeams[i].poketeam[4].id) // with Promise
-        .then(function (response) {
-            //console.log(response);
-            let poke = {
-                id: response.id,
-                name: response.name,
-                level: 0,
-                sprites: {
-                    front_default: response.sprites.front_default
-                },
-                types: response.types
-            }
-            setPoke(i, 5, poke);
-        });
-    P.getPokemonByName(dbTeams[i].poketeam[5].id) // with Promise
-        .then(function (response) {
-            //console.log(response);
-            let poke = {
-                id: response.id,
-                name: response.name,
-                level: 0,
-                sprites: {
-                    front_default: response.sprites.front_default
-                },
-                types: response.types
-            }
-            setPoke(i, 6, poke);
-        });
-}
-    }
-
-    
-
-
 }

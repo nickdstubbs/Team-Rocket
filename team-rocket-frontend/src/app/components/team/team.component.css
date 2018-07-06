@@ -1,0 +1,15 @@
+.pokemonTeam {
+    width:66%;
+    display: inline-block;
+}
+
+.pokemonCard {
+    padding: 10px;
+    display: inline-block;
+    width:200px;
+    cursor: pointer;
+}
+
+.pokemonPic {
+    width: 100%;
+}

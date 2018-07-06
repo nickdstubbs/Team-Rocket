@@ -15,10 +15,13 @@ import { PokemonComponent } from './components/pokemon/pokemon.component';
 import { PokemonCardComponent } from './components/pokcard/pokcard.component';
 import { HttpModule } from '@angular/http';
 import { PokeTeamService } from './components/teams/pokeTeam.service';
-import { TeamComponent } from './team/team.component';
 import { TeamsPageService } from './components/teams/teams-page.service';
 import { EditTeamComponent } from './components/edit-team/edit-team.component';
 import { ExploreService } from './components/explore/explore.service';
+import { TrainerComponent } from './components/trainer/trainer.component';
+import { CapFirstPipe } from './cap-first.pipe';
+import { TeamComponent } from './components/team/team.component';
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +36,11 @@ import { ExploreService } from './components/explore/explore.service';
     PokedexComponent,
     PokemonComponent,
     PokemonCardComponent,
-    TeamComponent,
     EditTeamComponent,
+    TrainerComponent,
+    CapFirstPipe,
+    TeamComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
