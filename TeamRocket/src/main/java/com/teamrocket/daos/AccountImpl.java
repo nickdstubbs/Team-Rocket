@@ -28,11 +28,12 @@ public abstract class AccountImpl extends Transactions implements AccountDao{
 		
 		List<Account> accounts=query.list();
 		
-		
 		if(accounts.size()>0) {
 			newAccount=accounts.get(0);
 			newAccount.setTeams(loadTeams(newAccount.getUser_id()));
 		}
+		
+		session.close();
 		
 		return newAccount;
 	}
@@ -46,6 +47,8 @@ public abstract class AccountImpl extends Transactions implements AccountDao{
 		query.setString("em", email);
 		
 		List<Account> accounts=query.list();
+		
+		session.close();
 		
 		if(accounts.isEmpty()) {
 			Account newAccount = new Account(username, email, password);
@@ -64,6 +67,7 @@ public abstract class AccountImpl extends Transactions implements AccountDao{
 		
 		List<Account> account = query.list();
 		
+		session.close();
 		if(account.size()>0) {
 			return account.get(0);
 		}
@@ -78,6 +82,7 @@ public abstract class AccountImpl extends Transactions implements AccountDao{
 		for(Account account : accounts) {
 			account.loadTeams(account.getUser_id());
 		}
+		session.close();
 		return accounts;
 	}
 	
@@ -88,6 +93,7 @@ public abstract class AccountImpl extends Transactions implements AccountDao{
 		query.setInteger("id", id);
 		List<Team> teams = query.list();
 		
+		session.close();
 		if(teams==null) {
 			return new ArrayList<Team>();
 		}
@@ -100,6 +106,7 @@ public abstract class AccountImpl extends Transactions implements AccountDao{
 		for(Team team : teams) {
 			team.loadPokemon(team.getTeamId());
 		}
+		session.close();
 		return teams;
 	}
 }

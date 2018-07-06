@@ -21,6 +21,9 @@ public abstract class TeamImpl extends Transactions implements TeamDao{
 		Query query = session.createQuery("from Pokemon where teamId=:id");
 		query.setInteger("id", id);
 		List<Pokemon> pokemon = query.list();
+		
+		session.close();
+		
 		return pokemon;
 	}
 	
@@ -30,10 +33,17 @@ public abstract class TeamImpl extends Transactions implements TeamDao{
 		Query query = session.createQuery("from Team where teamId=:id");
 		query.setInteger("id", id);
 		List<Team> teams = query.list();
+		
+		session.close();
+		
 		if(teams.isEmpty())
 			return null;
-		else
+		else {
+			Team team = teams.get(0);
+			team.setPokemon(team.loadPokemon(team.getTeamId()));
 			return teams.get(0);
+		}
+			
 	}
 
 }

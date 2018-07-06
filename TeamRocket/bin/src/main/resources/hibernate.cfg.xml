@@ -15,12 +15,9 @@
 		<property name="hibernate.show_sql">true</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		
-		<property name="hibernate.connection.release_mode">after_statement</property>
-		
 		<mapping class="com.teamrocket.pojos.Account"/>
 		<mapping class="com.teamrocket.pojos.Team" />
 		<mapping class="com.teamrocket.pojos.Pokemon" />
-		<mapping class="com.teamrocket.pojos.TwitterInfo" />
 		
 	</session-factory>
 </hibernate-configuration>

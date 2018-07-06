@@ -16,6 +16,8 @@ public class TwitterInfoImpl extends Transactions{
 		query.setInteger("id", id);
 		List<TwitterInfo> twits = query.list();
 		
+		session.close();
+		
 		if(twits.size()>0) {
 			return twits.get(0);
 		}
