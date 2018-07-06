@@ -21,6 +21,7 @@ import { ExploreService } from './components/explore/explore.service';
 import { TrainerComponent } from './components/trainer/trainer.component';
 import { CapFirstPipe } from './cap-first.pipe';
 import { TeamComponent } from './components/team/team.component';
+import { ErrorComponent } from './components/error/error.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { TeamComponent } from './components/team/team.component';
     EditTeamComponent,
     TrainerComponent,
     CapFirstPipe,
-    TeamComponent
+    TeamComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

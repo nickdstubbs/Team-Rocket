@@ -11,6 +11,7 @@ import { PokedexComponent } from '../components/pokedex/pokedex.component';
 import { PokemonComponent } from '../components/pokemon/pokemon.component';
 import { TrainerComponent } from '../components/trainer/trainer.component';
 import { TeamComponent } from '../components/team/team.component';
+import { ErrorComponent } from '../components/error/error.component';
 const routes: Routes = [
   {
     path: '',
@@ -52,6 +53,9 @@ const routes: Routes = [
   }, {
     path: 'team/:teamId',
     component: TeamComponent
+  }, {
+    path: 'error',
+    component: ErrorComponent
   }, {
     path: '**',
     redirectTo: 'home'
