@@ -9,6 +9,36 @@
   <link rel="icon" type="image/x-icon" href="https://webiconspng.com/wp-content/uploads/2017/09/Pokeball-PNG-Image-16821.png">
 </head>
 <body id="myBody">
+    <script>
+        window.fbAsyncInit = function() {
+          FB.init({
+            appId            : '364521280738991',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v3.0'
+          });
+        };
+      
+        (function(d, s, id){
+           var js, fjs = d.getElementsByTagName(s)[0];
+           if (d.getElementById(id)) {return;}
+           js = d.createElement(s); js.id = id;
+           js.src = "https://connect.facebook.net/en_US/sdk.js";
+           fjs.parentNode.insertBefore(js, fjs);
+         }(document, 'script', 'facebook-jssdk'));
+      </script>
   <app-root></app-root>
+
+  <div id="shareBtn" class="btn btn-success clearfix">Share</div>
+
+  <script>
+      document.getElementById('shareBtn').onclick = function() {
+        FB.ui({
+          method: 'share',
+          display: 'popup',
+          href: 'https://developers.facebook.com/docs/',
+        }, function(response){});
+      }
+  </script>
 </body>
 </html>
