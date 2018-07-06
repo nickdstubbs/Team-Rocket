@@ -5,17 +5,17 @@
     <div class="cardContainer" *ngIf="hasNext(1)">
       <div class="card">
         <div>
-          <img class="cardPic" [src]="preview[0].poketeam[0].sprites.front_default" alt="Card image cap">
-          <img class="cardPic" [src]="preview[0].poketeam[1].sprites.front_default" alt="Card image cap">
-          <img class="cardPic" [src]="preview[0].poketeam[2].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="preview[0].pokemon[0].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="preview[0].pokemon[1].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="preview[0].pokemon[2].sprites.front_default" alt="Card image cap">
         </div>
         <div>
-          <img class="cardPic" [src]="preview[0].poketeam[3].sprites.front_default" alt="Card image cap">
-          <img class="cardPic" [src]="preview[0].poketeam[4].sprites.front_default" alt="Card image cap">
-          <img class="cardPic" [src]="preview[0].poketeam[5].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="preview[0].pokemon[3].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="preview[0].pokemon[4].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="preview[0].pokemon[5].sprites.front_default" alt="Card image cap">
         </div>
         <div class="card-body myCard">
-          <h5 class="card-title">{{preview[0].nickname}}</h5>
+          <h5 class="card-title">{{preview[0].teamName}}</h5>
           <p class="card-text">{{preview[0].description}}</p>
         </div>
       </div>
@@ -24,17 +24,17 @@
     <div class="cardContainer" *ngIf="hasNext(2)">
       <div class="card">
         <div>
-          <img class="cardPic" [src]="preview[1].poketeam[0].sprites.front_default" alt="Card image cap">
-          <img class="cardPic" [src]="preview[1].poketeam[1].sprites.front_default" alt="Card image cap">
-          <img class="cardPic" [src]="preview[1].poketeam[2].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="preview[1].pokemon[0].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="preview[1].pokemon[1].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="preview[1].pokemon[2].sprites.front_default" alt="Card image cap">
         </div>
         <div>
-          <img class="cardPic" [src]="preview[1].poketeam[3].sprites.front_default" alt="Card image cap">
-          <img class="cardPic" [src]="preview[1].poketeam[4].sprites.front_default" alt="Card image cap">
-          <img class="cardPic" [src]="preview[1].poketeam[5].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="preview[1].pokemon[3].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="preview[1].pokemon[4].sprites.front_default" alt="Card image cap">
+          <img class="cardPic" [src]="preview[1].pokemon[5].sprites.front_default" alt="Card image cap">
         </div>
         <div class="card-body myCard">
-          <h5 class="card-title">{{preview[1].nickname}}</h5>
+          <h5 class="card-title">{{preview[1].teamName}}</h5>
           <p class="card-text">{{preview[1].description}}</p>
         </div>
       </div>

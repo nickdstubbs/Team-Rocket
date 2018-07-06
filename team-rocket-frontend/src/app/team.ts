@@ -2,8 +2,8 @@ import { Pokemon } from './components/pokemon/pokemon.interface';
 import { teamPokemon } from './components/teams/teamPokemon.interface';
 
 export interface Team {
-    nickname: string,
+    teamName: string,
     description: string,
-    poketeam: teamPokemon[],
-    id: number
+    pokemon: teamPokemon[],
+    teamId: number
 }

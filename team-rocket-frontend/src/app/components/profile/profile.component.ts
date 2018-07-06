@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../user';
-import { USER } from '../../mock-user'
 import { Team } from '../../team';
-import { DbTeam } from '../../dbTeam';
 import { PokeTeamService } from '../teams/pokeTeam.service';
 import { TeamsPageService } from '../teams/teams-page.service';
 import { Http } from '@angular/http';
@@ -17,7 +15,7 @@ import { Router } from '@angular/router';
 export class ProfileComponent implements OnInit {
   user: User;
   max: number;
-  previewTeams: DbTeam[];
+  previewTeams: Team[];
   preview: Team[];
 
   constructor(private serve: TeamsPageService, private http: Http, private router: Router) { }
@@ -37,13 +35,13 @@ export class ProfileComponent implements OnInit {
       let index = 0;
       for (let t of ts) {
         this.user.teams.push({
-          nickname: t.teamName,
+          teamName: t.teamName,
           description: "",
-          poketeam: [],
-          id: t.teamId
+          pokemon: [],
+          teamId: t.teamId
         })
         for (let i = 0; i < 6; i++) {
-          this.user.teams[index].poketeam.push({
+          this.user.teams[index].pokemon.push({
             id: 0,
             name: "",
             level: 0,
@@ -53,7 +51,7 @@ export class ProfileComponent implements OnInit {
             types: []
           })
         }
-        for (let j = 0; j < this.user.teams[index].poketeam.length; j++) {
+        for (let j = 0; j < this.user.teams[index].pokemon.length; j++) {
           if (j >= t.pokemon.length) {
             break;
           }
@@ -66,7 +64,7 @@ export class ProfileComponent implements OnInit {
             },
             types: []
           }
-          this.user.teams[index].poketeam[j] = temp;
+          this.user.teams[index].pokemon[j] = temp;
         }
         index++;
       }

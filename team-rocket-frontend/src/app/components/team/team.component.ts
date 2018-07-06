@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Team } from '../../team';
 import { Http } from '@angular/http';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { DbTeam } from '../../dbTeam';
 import { teamPokemon } from '../teams/teamPokemon.interface';
 import { TrainerService } from '../trainer/trainer.service';
 
@@ -13,16 +12,16 @@ import { TrainerService } from '../trainer/trainer.service';
 })
 export class TeamComponent implements OnInit {
   team: Team[];
-  dbTeam: DbTeam[];
+  dbTeam: Team[];
   name: String = "Team";
   constructor(private activeRoute: ActivatedRoute, private http: Http, private serve: TrainerService, private router: Router) { }
 
   ngOnInit() {
     this.team = [{
-      nickname: "",
+      teamName: "",
       description: "",
-      poketeam: [],
-      id: 0
+      pokemon: [],
+      teamId: 0
     }];
     this.dbTeam = [];
     this.activeRoute.paramMap.subscribe(paramMap => this.getTeam(paramMap));
@@ -45,13 +44,13 @@ export class TeamComponent implements OnInit {
       }
 
       this.dbTeam.push({
-        nickname: t.teamName,
+        teamName: t.teamName,
         description: "",
-        poketeam: [],
-        id: t.teamId
+        pokemon: [],
+        teamId: t.teamId
       })
       for (let i = 0; i < 6; i++) {
-        this.dbTeam[0].poketeam.push({
+        this.dbTeam[0].pokemon.push({
           id: 0,
           name: "",
           level: 0,
@@ -61,7 +60,7 @@ export class TeamComponent implements OnInit {
           types: []
         });
       }
-      for (let j = 0; j < this.dbTeam[0].poketeam.length; j++) {
+      for (let j = 0; j < this.dbTeam[0].pokemon.length; j++) {
         if (j >= t.pokemon.length) {
           break;
         }
@@ -74,7 +73,7 @@ export class TeamComponent implements OnInit {
           },
           types: []
         }
-        this.dbTeam[0].poketeam[j] = temp;
+        this.dbTeam[0].pokemon[j] = temp;
       }
 
       this.team = this.serve.getVar();

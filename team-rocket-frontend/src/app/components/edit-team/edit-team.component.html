@@ -3,24 +3,24 @@
   <div class="cardContainer">
     <div class="card">
       <div>
-        <img class="cardPic" [src]="team.poketeam[0].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.pokemon[0].sprites.front_default" alt="Card image cap">
         <button class="btn btn-warning" (click)="remove(0)">Remove</button>
-        <img class="cardPic" [src]="team.poketeam[1].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.pokemon[1].sprites.front_default" alt="Card image cap">
         <button class="btn btn-warning" (click)="remove(1)">Remove</button>
-        <img class="cardPic" [src]="team.poketeam[2].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.pokemon[2].sprites.front_default" alt="Card image cap">
         <button class="btn btn-warning" (click)="remove(2)">Remove</button>
       </div>
       <div>
-        <img class="cardPic" [src]="team.poketeam[3].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.pokemon[3].sprites.front_default" alt="Card image cap">
         <button class="btn btn-warning" (click)="remove(3)">Remove</button>
-        <img class="cardPic" [src]="team.poketeam[4].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.pokemon[4].sprites.front_default" alt="Card image cap">
         <button class="btn btn-warning" (click)="remove(4)">Remove</button>
-        <img class="cardPic" [src]="team.poketeam[5].sprites.front_default" alt="Card image cap">
+        <img class="cardPic" [src]="team.pokemon[5].sprites.front_default" alt="Card image cap">
         <button class="btn btn-warning" (click)="remove(5)">Remove</button>
       </div>
       <div class="card-body myCard">
         <h2>Team Name</h2>
-        <input class="form-control" type=text value="{{team.nickname}}" (change)="changeName($event)">
+        <input class="form-control" type=text value="{{team.teamName}}" (change)="changeName($event)">
         <select class="form-control" (change)="setVis($event)">
           <option value="public">Public</option>
           <option value="private">Private</option>
