@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Team } from '../../team';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Http } from '@angular/http';
-import { TeamComponent } from '../../team/team.component';
 
 @Component({
   selector: 'app-edit-team',

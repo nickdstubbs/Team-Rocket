@@ -17,6 +17,9 @@ export class TeamComponent implements OnInit {
   name: String = "Team";
   constructor(private activeRoute: ActivatedRoute, private http: Http, private serve: TrainerService, private router: Router) { }
 
+
+  
+
   ngOnInit() {
     this.team = [{
       nickname: "",
@@ -27,6 +30,8 @@ export class TeamComponent implements OnInit {
     this.dbTeam = [];
     this.activeRoute.paramMap.subscribe(paramMap => this.getTeam(paramMap));
   }
+
+ 
 
   getTeam(paramMap: ParamMap) {
     let id = paramMap.get('teamId');
