@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Team } from '../../team';
 import { Http } from '@angular/http';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { DbTeam } from '../../dbTeam';
 import { teamPokemon } from '../teams/teamPokemon.interface';
 import { TrainerService } from '../trainer/trainer.service';
@@ -15,7 +15,7 @@ export class TeamComponent implements OnInit {
   team: Team[];
   dbTeam: DbTeam[];
   name: String = "Team";
-  constructor(private activeRoute: ActivatedRoute, private http: Http, private serve: TrainerService) { }
+  constructor(private activeRoute: ActivatedRoute, private http: Http, private serve: TrainerService, private router: Router) { }
 
   ngOnInit() {
     this.team = [{
@@ -30,9 +30,20 @@ export class TeamComponent implements OnInit {
 
   getTeam(paramMap: ParamMap) {
     let id = paramMap.get('teamId');
+    if (! /[0-9]+/.test(id)) {
+      this.router.navigate(['./error']);
+      return;
+    }
     this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/team?teamId=' + id).subscribe((res) => {
-      //console.log(res.json());
-      let t = res.json();
+      let t;
+      try {
+        console.log(res.json());
+        t = res.json();
+      } catch (error) {
+        this.router.navigate(['./error']);
+        return;
+      }
+
       this.dbTeam.push({
         nickname: t.teamName,
         description: "",

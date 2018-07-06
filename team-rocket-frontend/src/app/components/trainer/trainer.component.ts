@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { User } from '../../user';
 import { DbTeam } from '../../dbTeam';
@@ -19,7 +19,7 @@ export class TrainerComponent implements OnInit {
   public id;
   public hasTeams = true;
 
-  constructor(private activeRoute: ActivatedRoute, private http: Http, private serve: TrainerService) { }
+  constructor(private activeRoute: ActivatedRoute, private http: Http, private serve: TrainerService, private router: Router) { }
 
   ngOnInit() {
     this.teams = [];
@@ -37,10 +37,15 @@ export class TrainerComponent implements OnInit {
     this.id = paramMap.get('trainerId');
     this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/accounts').subscribe((res) => {
       let users = res.json();
+      let found = false;
       for (let u of users) {
         if (u.user_id == this.id) {
           this.user = u;
+          found = true;
         }
+      }
+      if(!found) {
+        this.router.navigate(['/error']);
       }
     })
     this.http.get('http://team-rocket.us-east-2.elasticbeanstalk.com/accounts/teams').subscribe((res) => {
