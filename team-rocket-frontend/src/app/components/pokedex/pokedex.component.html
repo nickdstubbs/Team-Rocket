@@ -30,13 +30,15 @@
         </ul>
       </td>
       <td>
-        <!--Need a Dropdown that shows the user's non-full teams, a number input for level, and a button to actually add it-->
-        <select class="form-control" id="userTeams" name="userTeams" (change)="setTeam($event)">
-          <option *ngFor="let team of curUser.teams" value="{{team.nickname}}">{{team.nickname}}</option>
-        </select>
-        <label for="levelSet">Level</label>
-        <input type="number" min="0" max="100" (change)="setLevel($event, pokemon)" id="levelSet">
-        <button class="btn" id="addPkmnButton" (click)="addPokemon(pokemon)">Add to {{curTeam}}</button>
+        <div *ngIf="hasTeams">
+          <!--Need a Dropdown that shows the user's non-full teams, a number input for level, and a button to actually add it-->
+          <select class="form-control" id="userTeams" name="userTeams" (change)="setTeam($event)">
+            <option *ngFor="let team of curUser.teams" value="{{team.nickname}}">{{team.nickname}}</option>
+          </select>
+          <label for="levelSet">Level</label>
+          <input type="number" min="0" max="100" (change)="setLevel($event, pokemon)" id="levelSet">
+          <button class="btn" id="addPkmnButton" (click)="addPokemon(pokemon)">Add to {{curTeam}}</button>
+        </div>
       </td>
     </tr>
   </table>

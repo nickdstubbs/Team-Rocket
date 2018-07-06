@@ -38,6 +38,7 @@ export class TeamsPageService {
                     sprites: { front_default: "http://i.imgur.com/EgIXnFE.jpg" },
                     types: [""]
                 })
+
             }
         }
         for (let i = 0; i < dbTeams.length; i++) {
