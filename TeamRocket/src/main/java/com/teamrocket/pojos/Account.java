@@ -135,6 +135,7 @@ public class Account extends AccountImpl{
 	}
 	
 	public Team getTeamById(int teamId) {
+		teams=loadTeams(user_id);
 		for(Team team : teams) {
 			if(team.getTeamId()==teamId) {
 				return team;

@@ -1,15 +1,14 @@
 package com.teamrocket.controller;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -294,73 +293,6 @@ public class AccountController {
 			return null;
 		}
 		
-	}
-	
-	
-	@CrossOrigin(origins="*")
-	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/post-tweet")
-	@ResponseBody
-	public String postTweet(@RequestBody tweetForm tf) {
-		Twitter twitter = TwitterFactory.getSingleton();
-		account = new Account().accountById(tf.getUserId());
-		if(account!=null) {
-			//Check to see if the consumer is set
-			try {
-				twitter.setOAuthConsumer("HtrSNuhruRDeHsj0AP12Xqj1Q", "k2JzXoZDGiNbHHc3MUchxeae3Vn9Lt1mw4zvxngTe5QiGyZ3Za");
-			} catch(Exception e) {
-				
-			}
-			
-			TwitterInfo twit = new TwitterInfo(account.getUser_id());
-			if(twit.getUserId()==0) {
-				return "{\"result\":\"no credentials saved\"}";
-			}
-			return twit.post(tf.getMessage(), twitter);
-		}
-		else {
-			return "{\"result\":\"not logged in\"}";
-		}
-	}
-	
-	@CrossOrigin(origins="/**")
-	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/twitter-url")
-	@ResponseBody
-	public String twitterUrl() {
-		Twitter twitter=(Twitter) session.getAttribute("twitter");
-		RequestToken rt;
-		try {
-			rt = twitter.getOAuthRequestToken();
-			String url = rt.getAuthenticationURL();
-			return "{\"url\":\""+url+"\"}";
-		} catch (TwitterException e) {
-			return "Error";
-		}
-		
-	}
-	
-	@CrossOrigin(origins="*")
-	@PostMapping(produces=MediaType.APPLICATION_JSON_VALUE, value="/account/new-twitter")
-	@ResponseBody
-	public String newTwitter(@RequestParam("pin") String pin, @RequestParam(value="save", required=false) boolean save) throws TwitterException {
-		Twitter twitter = (Twitter) session.getAttribute("twitter");
-		RequestToken rt = (RequestToken) session.getAttribute("requestToken");
-		String message = (String) session.getAttribute("message");
-		
-		session.removeAttribute("twitter");
-		session.removeAttribute("requestToken");
-		session.removeAttribute("message");
-		if(twitter != null) {
-			AccessToken accessToken = twitter.getOAuthAccessToken(rt, pin);
-			twitter.setOAuthAccessToken(accessToken);
-			TwitterInfo twit = new TwitterInfo(account.getUser_id(), accessToken.getToken(), accessToken.getTokenSecret());
-			if(save) {
-				twit.save();
-			}
-			return twit.post(message, twitter);
-		}
-		else {
-			return null;
-		}
 	}
 	
 	//Methods for converting Information to JSON
